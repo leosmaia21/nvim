@@ -47,6 +47,8 @@ local programName = vim.fn.getcwd() .. "/"
 local argument_string = ' '
 
 function _G.startDebugger()
+	local filetype = vim.bo.filetype
+	if filetype ~= "c" and filetype ~= "cpp" then return 1 end
 	local programNameaux = vim.fn.input('Path to executable: ', programName , "file")
 	if programNameaux ~= '' then
 		programName = programNameaux
