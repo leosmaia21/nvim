@@ -46,7 +46,7 @@ dap.adapters.codelldb = {
 local programName = vim.fn.getcwd() .. "/"
 local argument_string = ' '
 
-function _G.startDebugger()
+function startDebugger()
 	local filetype = vim.bo.filetype
 	if filetype ~= "c" and filetype ~= "cpp" then return 1 end
 	local programNameaux = vim.fn.input('Path to executable: ', programName , "file")
@@ -86,8 +86,6 @@ vim.keymap.set('n', '<A-d>', function()
 	if (compDebaux ~= '') then
 		compDeb = compDebaux
 		vim.cmd("!" .. compDeb)
-	else
-		return 
 	end
 	if startDebugger() == 1 then
 		require'dap'.continue()
