@@ -5,12 +5,16 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, opts)
 vim.keymap.set('n', '<leader>d', builtin.diagnostics, opts)
 vim.keymap.set('n', '<leader>of', builtin.oldfiles, opts)
 vim.keymap.set('n', '<leader>qf', builtin.quickfix, opts)
+vim.keymap.set('n', '<leader>m', builtin.marks, opts)
 vim.keymap.set('n', '<leader>fg', function()
 	local string = vim.fn.input("Grep > ")
 	if string ~= '' then
 		builtin.grep_string({ search = string })
 	end
 end, opts)
+
+
+vim.api.nvim_create_user_command('Delmarks',function() vim.cmd("delm!") vim.cmd("wshada!") end, {})
 
 vim.keymap.set('n', '<leader>a', function() require("harpoon.mark").add_file() end, opts)
 vim.keymap.set('n', '<leader>h', function() require("harpoon.ui").toggle_quick_menu()end,  opts)
