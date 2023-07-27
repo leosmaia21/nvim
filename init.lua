@@ -74,9 +74,7 @@ palette_overrides = {
 vim.g.gruvbox_material_background = "hard"
 vim.g.gruvbox_material_better_performance = 1
 vim.g.gruvbox_material_foreground = 'original'
-vim.g.gruvbox_material_colors_override ={
-	 bg0 = {'#181919', '255'},
-}
+vim.g.gruvbox_material_colors_override ={bg0 = {'#181919', '255'}}
 vim.cmd.colorscheme('gruvbox-material')
 
 vim.g.mapleader = " "
@@ -106,74 +104,18 @@ vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup('yankcolor', {}),
-	command = ("silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=100 }")
+	command = ("silent! lua vim.highlight.on_yank {higroup='IncSearch', timeout=100}")
 })
 
 require('keymap')
 require('lualsp')
 require('debugger')
-
+require('lualineconf')
 
 require('Comment').setup()
 require'marks'.setup{force_write_shada = true}
-local maxSizeFile = 5
-require("lualine").setup{
-	options = {
-		icons_enabled = true,
-		component_separators = "|",
-		section_separators = "",
-		refresh = {statusline = 250},
-	},
-	sections = { 
-		lualine_a = {function()
-			local currentFile = vim.fn.split(vim.api.nvim_buf_get_name(0), "/")
-			currentFile = currentFile[#currentFile]
-			if vim.api.nvim_buf_get_option(0, 'buftype') ~= '' then return currentFile end
-			local lenSize = string.len(currentFile)
-			if (lenSize > maxSizeFile) then maxSizeFile = lenSize end
-			local padding = math.floor((maxSizeFile - lenSize) / 2)
-			if lenSize % 2 == 0 then currentFile = currentFile .. " " end
-			padding = string.rep(" ", padding)
-			return padding .. currentFile .. padding
-			end,
-			function()
-				if vim.api.nvim_buf_get_option(0, 'buftype') ~= ''  then return '' end
-				for i, buf in ipairs(vim.api.nvim_list_bufs()) do
-					if vim.api.nvim_buf_get_option(buf, 'buftype') == ''  then
-						if vim.api.nvim_buf_get_option(buf,'modified') then
-							return 'Unsaved files' -- any message or icon
-						end
-					end
-				end
-				return ''
-			end,
-		},
-		lualine_b = {{ 'diagnostics', sources = { 'nvim_lsp' }}, 
-		function() 
-				if vim.api.nvim_buf_get_option(0, 'buftype') ~= '' then return '' end
-				local tabela = require("harpoon").get_mark_config()['marks']
-				local currentFile = vim.fn.split(vim.api.nvim_buf_get_name(0), "/")
-				currentFile = currentFile[#currentFile]
-				local ret = {}
-				for key, value in pairs(tabela) do
-					local file = vim.fn.split(value['filename'], "/")
-					file = file[#file]
-					file = file == currentFile and file .. "*" or file .. " "
-					table.insert(ret, "  " .. key .. " " .. file)
-				end
-				return table.concat(ret)
-		end},
-		lualine_c = {},
-		lualine_x = {},
-		lualine_y = {},
-		lualine_z = {},
-	}
-}
 
-require("nvim-autopairs").setup({
-	ignored_next_char = "[%w%.]",
-	disable_filetype = { "TelescopePrompt" },
-})
+require("nvim-autopairs").setup({ignored_next_char = "[%w%.]", disable_filetype = {"TelescopePrompt"}})
 
 require'nvim-treesitter.configs'.setup {
 	ensure_installed = {"vim", "lua", "c", "python" },
@@ -195,7 +137,7 @@ vim.api.nvim_create_autocmd({"BufWrite"}, {
 	command = "silent! mkview",
 	group = save,
 })
-vim.api.nvim_create_autocmd({"BufReadPost"}, {
+vim.api.nvim_create_autocmd({"BufReadPost, Bufwrite"}, {
 	pattern = { "*" },
 	command = "silent! loadview",
 	group = save,
