@@ -31,7 +31,9 @@ vim.keymap.set('n', '<A-9>', function() require("harpoon.ui").nav_file(9) end, o
 vim.keymap.set('n', '<A-l>', function() require("harpoon.ui").nav_next() end, opts)
 vim.keymap.set('n', '<A-h>', function() require("harpoon.ui").nav_prev() end, opts)
 
-vim.keymap.set('n', '<C-w>', '<C-w>w')
+-- vim.keymap.set('n', '<C-w>', '<C-w>w')
+local nvim_tmux_nav = require('nvim-tmux-navigation')
+vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
 vim.keymap.set('n', '<C-Right>', '<C-w>l')
 vim.keymap.set('n', '<C-Up>', '<C-w>k')
 vim.keymap.set('n', '<C-Left>', '<C-w>h')
@@ -63,7 +65,7 @@ vim.keymap.set('i', 'jj', '<Esc>', opts)
 vim.api.nvim_set_keymap('i', '<C-H>', '<C-W>', {noremap = true})
 
 vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
-vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-W>w]])
+vim.keymap.set('t', '<C-Space>', [[<C-\><C-n><C-W>w]])
 
 vim.keymap.set({'n', 't'}, '<F5>', "<Cmd>lua require'dap'.continue()<CR>", opts)
 vim.keymap.set({'n', 't'}, '<F6>', "<Cmd>lua require'dap'.step_over()<CR>", opts)

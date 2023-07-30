@@ -77,10 +77,10 @@ luasnip.config.set_config({
 cmp.setup({
 	mapping = {
 		['<CR>'] = cmp.mapping.confirm({select = true}),
-		['<C-Space>'] = cmp.mapping.complete(),
+		-- ['<C-Space>'] = cmp.mapping.complete(),
 		['<C-p>'] = cmp.mapping.select_prev_item(),
 		['<C-n>'] = cmp.mapping.select_next_item(),
-		-- ['<C-c>'] = cmp.mapping.close(),
+		['<C-c>'] = cmp.mapping.close(),
 		["<Tab>"] = cmp.mapping(function(fallback)
 			local status_ok, luasnip = pcall(require, "luasnip")
 			-- if cmp.visible() then

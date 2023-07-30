@@ -14,6 +14,7 @@ require('packer').startup(function(use)
 	use 'ThePrimeagen/harpoon'
 	use 'nvim-telescope/telescope.nvim'
 	use 'nvim-lua/plenary.nvim'
+	use 'alexghergh/nvim-tmux-navigation'
 	use 'numToStr/Comment.nvim'
 	use 'tpope/vim-surround'
 	use 'mbbill/undotree'
@@ -149,6 +150,8 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 	group = vim.api.nvim_create_augroup('Packer', { clear = true }),
 	pattern = vim.fn.expand '$MYVIMRC',
 })
+
+require'nvim-tmux-navigation'.setup{}
 
 local norminette = 0
 vim.api.nvim_create_user_command('Norm', function()
