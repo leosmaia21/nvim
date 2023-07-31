@@ -6,6 +6,7 @@ local function filename()
 	if vim.api.nvim_buf_get_option(0, 'buftype') ~= '' then return currentFile end
 	local lenSize = string.len(currentFile)
 	if (lenSize > maxSizeFile) then maxSizeFile = lenSize end
+	if maxSizeFile % 2 == 0 then maxSizeFile = maxSizeFile + 1 end
 	local padding = math.floor((maxSizeFile - lenSize) / 2)
 	if lenSize % 2 == 0 then currentFile = currentFile .. " " end
 	padding = string.rep(" ", padding)
