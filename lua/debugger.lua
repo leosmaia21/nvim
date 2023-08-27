@@ -35,11 +35,8 @@ dap.adapters.codelldb = {
 	type = 'server',
 	port = "${port}",
 	executable = {
-		-- CHANGE THIS to your path!
 		command =vim.fn.stdpath("data") .. '/mason/bin/codelldb',
 		args = {"--port", "${port}"},
-		-- On windows you may have to uncomment this:
-		-- detached = false,
 	},
 }
 
@@ -48,7 +45,7 @@ local argument_string = ' '
 
 function startDebugger()
 	local filetype = vim.bo.filetype
-	if filetype ~= "c" and filetype ~= "cpp" then return 1 end
+	if filetype ~= "c" and filetype ~= "cpp" then return 0 end
 	local programNameaux = vim.fn.input('Path to executable: ', programName , "file")
 	if programNameaux ~= '' then
 		programName = programNameaux
@@ -83,6 +80,8 @@ dap.configurations.rust = dap.configurations.c
 
 local compDeb = 'make'
 vim.keymap.set('n', '<A-d>', function()
+	local filetype = vim.bo.filetype
+	if filetype ~= "c" and filetype ~= "cpp" then print("Not c/c++ project!") return end
 	compDebaux = vim.fn.input('Compile to debug: ', compDeb)
 	if (compDebaux ~= '') then
 		compDeb = compDebaux

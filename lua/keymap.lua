@@ -2,34 +2,31 @@ local opts = { noremap = true, silent = true }
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, opts)
 vim.keymap.set('n', '<leader>fb', builtin.buffers, opts)
-vim.keymap.set('n', '<leader>d', builtin.diagnostics, opts)
+vim.keymap.set('n', '<leader>d',  builtin.diagnostics, opts)
 vim.keymap.set('n', '<leader>of', builtin.oldfiles, opts)
 vim.keymap.set('n', '<leader>qf', builtin.quickfix, opts)
-vim.keymap.set('n', '<leader>m', builtin.marks, opts)
+vim.keymap.set('n', '<leader>m',  builtin.marks, opts)
 vim.keymap.set('n', '<leader>fg', function()
 	local string = vim.fn.input("Grep > ")
-	if string ~= '' then
-		builtin.grep_string({ search = string })
-	end
+	if string ~= '' then builtin.grep_string({ search = string }) end
 end, opts)
-
 
 vim.api.nvim_create_user_command('Delmarks',function() vim.cmd("delm!") vim.cmd("wshada!") end, {})
 
 vim.keymap.set('n', '<leader>a', function() require("harpoon.mark").add_file() end, opts)
 vim.keymap.set('n', '<leader>h', function() require("harpoon.ui").toggle_quick_menu()end,  opts)
-vim.keymap.set('n', '<A-1>', function() require("harpoon.ui").nav_file(1) end, opts)
-vim.keymap.set('n', '<A-2>', function() require("harpoon.ui").nav_file(2) end, opts)
-vim.keymap.set('n', '<A-3>', function() require("harpoon.ui").nav_file(3) end, opts)
-vim.keymap.set('n', '<A-4>', function() require("harpoon.ui").nav_file(4) end, opts)
-vim.keymap.set('n', '<A-5>', function() require("harpoon.ui").nav_file(5) end, opts)
-vim.keymap.set('n', '<A-6>', function() require("harpoon.ui").nav_file(6) end, opts)
-vim.keymap.set('n', '<A-7>', function() require("harpoon.ui").nav_file(7) end, opts)
-vim.keymap.set('n', '<A-8>', function() require("harpoon.ui").nav_file(8) end, opts)
-vim.keymap.set('n', '<A-9>', function() require("harpoon.ui").nav_file(9) end, opts)
+vim.keymap.set('n', '<A-1>', 	 function() require("harpoon.ui").nav_file(1) end, opts)
+vim.keymap.set('n', '<A-2>', 	 function() require("harpoon.ui").nav_file(2) end, opts)
+vim.keymap.set('n', '<A-3>', 	 function() require("harpoon.ui").nav_file(3) end, opts)
+vim.keymap.set('n', '<A-4>', 	 function() require("harpoon.ui").nav_file(4) end, opts)
+vim.keymap.set('n', '<A-5>', 	 function() require("harpoon.ui").nav_file(5) end, opts)
+vim.keymap.set('n', '<A-6>', 	 function() require("harpoon.ui").nav_file(6) end, opts)
+vim.keymap.set('n', '<A-7>', 	 function() require("harpoon.ui").nav_file(7) end, opts)
+vim.keymap.set('n', '<A-8>', 	 function() require("harpoon.ui").nav_file(8) end, opts)
+vim.keymap.set('n', '<A-9>', 	 function() require("harpoon.ui").nav_file(9) end, opts)
 -- Move to previous/next
-vim.keymap.set('n', '<A-l>', function() require("harpoon.ui").nav_next() end, opts)
-vim.keymap.set('n', '<A-h>', function() require("harpoon.ui").nav_prev() end, opts)
+vim.keymap.set('n', '<A-l>', 	 function() require("harpoon.ui").nav_next() end, opts)
+vim.keymap.set('n', '<A-h>', 	 function() require("harpoon.ui").nav_prev() end, opts)
 
 -- vim.keymap.set('n', '<C-w>', '<C-w>w')
 local nvim_tmux_nav = require('nvim-tmux-navigation')
@@ -62,7 +59,11 @@ vim.keymap.set('n', '<C-j>', '}')
 
 vim.keymap.set('i', 'jj', '<Esc>', opts)
 
-vim.api.nvim_set_keymap('i', '<C-H>', '<C-W>', {noremap = true})
+vim.keymap.set('i', '<C-H>', '<C-W>', opts)
+
+vim.keymap.set('n', '<A-c>', '<Cmd>copen<CR>')
+vim.keymap.set('n', '<A-j>', '<Cmd>cnext<CR>zz')
+vim.keymap.set('n', '<A-k>', '<Cmd>cprevious<CR>zz')
 
 vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
 vim.keymap.set('t', '<C-Space>', [[<C-\><C-n><C-W>w]])
@@ -77,3 +78,9 @@ vim.keymap.set({'n', 't'}, '<F10>', "<Cmd>lua require'dap'.run_to_cursor()<CR>",
 vim.keymap.set({'n', 't'}, '<Leader>b', "<Cmd>lua require'dap'.toggle_breakpoint()<CR>", opts)
 vim.keymap.set({'n', 't'}, '<Leader>B', "<Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opts)
 vim.keymap.set({'n', 't'}, '<Leader>lp', "<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opts)
+
+--disable arrow keys
+vim.keymap.set({'n', 'v'}, '<Up>',    function() print("Nope!") end )
+vim.keymap.set({'n', 'v'}, '<Down>',  function() print("Nope!") end )
+vim.keymap.set({'n', 'v'}, '<Left>',  function() print("Nope!") end )
+vim.keymap.set({'n', 'v'}, '<Right>', function() print("Nope!") end )

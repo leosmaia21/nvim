@@ -9,7 +9,6 @@ end
 
 require('packer').startup(function(use)
 	use 'wbthomason/packer.nvim'
-	use 'ellisonleao/gruvbox.nvim'
 	use 'sainnhe/gruvbox-material'
 	use 'ThePrimeagen/harpoon'
 	use 'nvim-telescope/telescope.nvim'
@@ -40,7 +39,8 @@ require('packer').startup(function(use)
 			{'hrsh7th/nvim-cmp'},     -- Required
 			{'hrsh7th/cmp-nvim-lsp'}, -- Required
 			{'L3MON4D3/LuaSnip'},     -- Required
-			{'saadparwaiz1/cmp_luasnip'},
+			{'hrsh7th/cmp-path'},
+			{'hrsh7th/cmp-buffer'},
 		}
 	}
 	use {'42Paris/42header'}
@@ -62,15 +62,6 @@ end
 
 vim.g.user42 = 'ledos-sa'
 vim.g.mail42 = 'ledos-sa@student.42.fr'
--- GRUVBOX
-require("gruvbox").setup({
-contrast = "hard",
-bold = false,
-strikethrough = true,
-palette_overrides = {
-	dark0_hard = "#181919",
-}
-})
 
 vim.g.gruvbox_material_background = "hard"
 vim.g.gruvbox_material_better_performance = 1
@@ -153,17 +144,15 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 
 require'nvim-tmux-navigation'.setup{}
 
-local norminette = 0
 vim.api.nvim_create_user_command('Norm', function()
-	norminette = (norminette == 0) and 1 or 0
 	vim.g.syntastic_c_checkers = {'norminette'}
-	vim.g.syntastic_aggregate_errors = norminette
+	vim.g.syntastic_aggregate_errors = 1
 	vim.g.syntastic_c_norminette_exec = 'norminette'
-	vim.g.c_syntax_for_h = norminette
+	vim.g.c_syntax_for_h = 1
 	vim.g.syntastic_c_include_dirs = {'include', '../include', '../../include', 'libft', '../libft/include', '../../libft/include'}
 	vim.g.syntastic_c_norminette_args = '-R CheckTopCommentHeader'
-	vim.g.syntastic_check_on_open = norminette
-	vim.g.syntastic_always_populate_loc_list = norminette
+	vim.g.syntastic_check_on_open = 1
+	vim.g.syntastic_always_populate_loc_list = 1
 	vim.g.syntastic_auto_loc_list = 0
 	vim.g.syntastic_check_on_wq = 0
 	vim.cmd('write')

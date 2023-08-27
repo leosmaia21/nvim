@@ -45,7 +45,7 @@ require("lualine").setup{
 		icons_enabled = true,
 		component_separators = "|",
 		section_separators = "",
-		refresh = {statusline = 250},
+		refresh = {statusline = 300},
 	},
 	sections = { 
 		lualine_a = {filename, unsavedFiles},
