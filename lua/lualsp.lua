@@ -114,7 +114,7 @@ cmp.setup({
 				luasnip.expand_or_jump()
 			end
 			end, { "i", "s"}),
-		['<S-Tab>'] = cmp.mapping(function(fallback)
+		['<C-m>'] = cmp.mapping(function(fallback)
 			local status_ok, luasnip = pcall(require, "luasnip")
 			if status_ok and luasnip.expand_or_locally_jumpable(-1) then
 			-- if status_ok and luasnip.expand_or_jumpable(-1) then
