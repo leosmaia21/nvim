@@ -80,7 +80,7 @@ vim.keymap.set({'n', 't'}, '<Leader>B', "<Cmd>lua require'dap'.set_breakpoint(vi
 vim.keymap.set({'n', 't'}, '<Leader>lp', "<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opts)
 
 --disable arrow keys
-vim.keymap.set({'n', 'v'}, '<Up>',    function() print("Nope!") end )
-vim.keymap.set({'n', 'v'}, '<Down>',  function() print("Nope!") end )
-vim.keymap.set({'n', 'v'}, '<Left>',  function() print("Nope!") end )
-vim.keymap.set({'n', 'v'}, '<Right>', function() print("Nope!") end )
+vim.keymap.set({'n', 'v'}, '<Up>',    function() print("Nope!") end)
+vim.keymap.set({'n', 'v'}, '<Down>',  function() print("Nope!") end)
+vim.keymap.set({'n', 'v'}, '<Left>',  function() print("Nope!") end)
+vim.keymap.set({'n', 'v'}, '<Right>', function() print("Nope!") end)

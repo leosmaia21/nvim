@@ -13,19 +13,10 @@ require("nvim-dap-virtual-text").setup {
 require("dapui").setup()
 
 local dap, dapui = require("dap"), require("dapui")
-dap.listeners.after.event_initialized["dapui_config"] = function()
-	dapui.open()
-end
-dap.listeners.before.event_terminated["dapui_config"] = function()
-	dapui.close()
-end
-dap.listeners.before.event_exited["dapui_config"] = function()
-	dapui.close()
-end
-
-vim.keymap.set('n', '<F3>', function()
-	dapui.toggle()
-end , opts)
+dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
+dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
+dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
+vim.keymap.set('n', '<F3>', function() dapui.toggle() end , opts)
 vim.api.nvim_create_user_command('Closedapui',function() dapui.close() end,{})
 vim.api.nvim_create_user_command('Opendapui',function() dapui.open() end,{})
 vim.api.nvim_create_user_command('Toggledapui',function() dapui.toggle() end,{})
@@ -53,10 +44,10 @@ function startDebugger()
 		return 0
 	end
 	local argument_stringaux = vim.fn.input('Program arguments: ', argument_string)
-	if (argument_stringaux ~= '') then
+	if argument_stringaux ~= '' then
 		argument_string = argument_stringaux
 	end
-	if (vim.fn.input('Continue to debugger?(y/n): ', 'y') == 'y') then
+	if vim.fn.input('Continue to debugger?(y/n): ', 'y') == 'y' then
 		return 1
 	else 
 		return 0
@@ -81,13 +72,23 @@ dap.configurations.rust = dap.configurations.c
 local compDeb = 'make'
 vim.keymap.set('n', '<A-d>', function()
 	local filetype = vim.bo.filetype
-	if filetype ~= "c" and filetype ~= "cpp" then print("Not c/c++ project!") return end
+	if filetype ~= "c" and filetype ~= "cpp" and filetype ~= "rust" then print("Not c/c++ project!") return end
 	compDebaux = vim.fn.input('Compile to debug: ', compDeb)
-	if (compDebaux ~= '') then
+	if compDebaux ~= '' then
 		compDeb = compDebaux
 		vim.cmd("!" .. compDeb)
 	end
-	if startDebugger() == 1 then
-		require'dap'.continue()
+	if (vim.api.nvim_eval("v:shell_error") ~= 0) then
+		print("Compile error!")
+		return
 	end
-	end, opts)
+	if startDebugger() == 1 then require'dap'.continue() end
+end, opts)
+
+vim.keymap.set('n', '<A-e>', function()
+	local filetype = vim.bo.filetype
+	if filetype ~= "c" and filetype ~= "cpp" and filetype ~= "rust" then print("Not c/c++ project!") return end
+	vim.cmd("!" .. compDeb)
+	if vim.api.nvim_eval("v:shell_error") ~= 0 then return end
+	require'dap'.continue()
+end, opts)

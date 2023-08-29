@@ -73,19 +73,17 @@ vim.g.mapleader = " "
 vim.g.termdebug_popup = 0
 vim.g.termdebug_wide = 1
 vim.opt.termguicolors = true
-vim.opt.rnu = true
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.cursorline = true
 vim.opt.wrap = false
 vim.opt.swapfile = false
-vim.opt.backup = false
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.scrolloff = 5
 vim.opt.smartindent = true
-vim.opt.smarttab = true
 vim.opt.ignorecase = true
 vim.opt.hidden = true
 vim.opt.undofile = true
@@ -112,9 +110,9 @@ require("nvim-autopairs").setup({ignored_next_char = "[%w%.]", disable_filetype 
 require'nvim-treesitter.configs'.setup {
 	ensure_installed = {"vim", "lua", "c", "python" },
 	auto_install = true,
-	indent = {
-		enable = true,
-	},
+	-- indent = {
+	-- 	enable = true,
+	-- },
 	highlight = {
 		enable = true,
 		additional_vim_regex_highlighting = false,
@@ -157,3 +155,4 @@ vim.api.nvim_create_user_command('Norm', function()
 	vim.g.syntastic_check_on_wq = 0
 	vim.cmd('write')
 end, {})
+

@@ -10,6 +10,7 @@ local function filename()
 	local padding = math.floor((maxSizeFile - lenSize) / 2)
 	if lenSize % 2 == 0 then currentFile = currentFile .. " " end
 	padding = string.rep(" ", padding)
+	if lenSize > 15 then maxSizeFile = 15 end
 	return padding .. currentFile .. padding
 end
 

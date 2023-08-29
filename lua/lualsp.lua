@@ -83,8 +83,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- You need to setup `cmp` after lsp-zero
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()
--- require('luasnip.loaders.from_snipmate').lazy_load()
-
 local luasnip = require('luasnip')
 
 luasnip.config.set_config({
@@ -95,36 +93,25 @@ luasnip.config.set_config({
 })
 
 cmp.setup({
-  -- sources = {
-  --   {name = 'nvim_lsp'},
-  --   {name = 'luasnip'},
-  -- },
 	mapping = {
 		['<CR>'] = cmp.mapping.confirm({select = true}),
-		-- ['<C-Space>'] = cmp.mapping.complete(),
 		['<C-p>'] = cmp.mapping.select_prev_item(),
 		['<C-n>'] = cmp.mapping.select_next_item(),
 		['<C-c>'] = cmp.mapping.close(),
-		-- ['<C-l>'] = cmp_action.luasnip_jump_forward(),
-		-- ['<C-h>'] = cmp_action.luasnip_jump_backward(),
 		['<C-l>'] = cmp.mapping(function(fallback)
 			local status_ok, luasnip = pcall(require, "luasnip")
 			if status_ok and luasnip.expand_or_locally_jumpable() then
-				-- if status_ok and luasnip.expand_or_jumpable() then
 				luasnip.expand_or_jump()
 			end
 			end, { "i", "s"}),
 		['<C-m>'] = cmp.mapping(function(fallback)
 			local status_ok, luasnip = pcall(require, "luasnip")
 			if status_ok and luasnip.expand_or_locally_jumpable(-1) then
-			-- if status_ok and luasnip.expand_or_jumpable(-1) then
 				luasnip.jump(-1)
 			end
 			end, { "i", "s"})
 	}
 })
-
-local cmp = require('cmp')
 
 require("mason-lspconfig").setup {
 	ensure_installed = { "clangd", "pylsp"},
