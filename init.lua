@@ -127,7 +127,7 @@ vim.api.nvim_create_autocmd({"BufWrite"}, {
 	command = "silent! mkview",
 	group = save,
 })
-vim.api.nvim_create_autocmd({"BufReadPost, Bufwrite"}, {
+vim.api.nvim_create_autocmd({"BufReadPost"}, {
 	pattern = { "*" },
 	command = "silent! loadview",
 	group = save,
