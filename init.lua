@@ -12,6 +12,7 @@ require('packer').startup(function(use)
 	use 'sainnhe/gruvbox-material'
 	use 'ThePrimeagen/harpoon'
 	use 'nvim-telescope/telescope.nvim'
+	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
 	use 'nvim-lua/plenary.nvim'
 	use 'alexghergh/nvim-tmux-navigation'
 	use 'numToStr/Comment.nvim'
@@ -33,12 +34,12 @@ require('packer').startup(function(use)
 		'VonHeikemen/lsp-zero.nvim',
 		branch = 'v2.x',
 		requires = {
-			{'neovim/nvim-lspconfig'},             -- Required
+			{'neovim/nvim-lspconfig'},
 			{'williamboman/mason.nvim', run = function() pcall(vim.cmd, 'MasonUpdate') end},
-			{'williamboman/mason-lspconfig.nvim'}, -- Optional
-			{'hrsh7th/nvim-cmp'},     -- Required
-			{'hrsh7th/cmp-nvim-lsp'}, -- Required
-			{'L3MON4D3/LuaSnip'},     -- Required
+			{'williamboman/mason-lspconfig.nvim'},
+			{'hrsh7th/nvim-cmp'},
+			{'hrsh7th/cmp-nvim-lsp'},
+			{'L3MON4D3/LuaSnip'},
 			{'hrsh7th/cmp-path'},
 			{'hrsh7th/cmp-buffer'},
 		}
@@ -92,11 +93,6 @@ vim.opt.foldenable = false
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
-vim.api.nvim_create_autocmd("TextYankPost", {
-	group = vim.api.nvim_create_augroup('yankcolor', {}),
-	command = ("silent! lua vim.highlight.on_yank {higroup='IncSearch', timeout=100}")
-})
-
 require('keymap')
 require('lualsp')
 require('debugger')
@@ -105,14 +101,13 @@ require('lualineconf')
 require('Comment').setup()
 require'marks'.setup{force_write_shada = true}
 
+require('telescope').load_extension('fzf')
+
 require("nvim-autopairs").setup({ignored_next_char = "[%w%.]", disable_filetype = {"TelescopePrompt"}})
 
 require'nvim-treesitter.configs'.setup {
 	ensure_installed = {"vim", "lua", "c", "python" },
 	auto_install = true,
-	-- indent = {
-	-- 	enable = true,
-	-- },
 	highlight = {
 		enable = true,
 		additional_vim_regex_highlighting = false,
@@ -138,6 +133,11 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 	command = 'source <afile> | PackerCompile',
 	group = vim.api.nvim_create_augroup('Packer', { clear = true }),
 	pattern = vim.fn.expand '$MYVIMRC',
+})
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = vim.api.nvim_create_augroup('yankcolor', {}),
+	command = ("silent! lua vim.highlight.on_yank {higroup='IncSearch', timeout=100}")
 })
 
 require'nvim-tmux-navigation'.setup{}
