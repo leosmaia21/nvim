@@ -11,6 +11,7 @@ require('packer').startup(function(use)
 	use 'wbthomason/packer.nvim'
 	use 'sainnhe/gruvbox-material'
 	use 'ThePrimeagen/harpoon'
+	use 'tpope/vim-fugitive'
 	use 'nvim-telescope/telescope.nvim'
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
 	use 'nvim-lua/plenary.nvim'
@@ -155,4 +156,3 @@ vim.api.nvim_create_user_command('Norm', function()
 	vim.g.syntastic_check_on_wq = 0
 	vim.cmd('write')
 end, {})
-

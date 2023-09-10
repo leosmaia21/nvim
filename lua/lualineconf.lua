@@ -49,7 +49,7 @@ require("lualine").setup{
 		refresh = {statusline = 300},
 	},
 	sections = { 
-		lualine_a = {filename, unsavedFiles},
+		lualine_a = {filename, unsavedFiles, 'branch'},
 		lualine_b = {{ 'diagnostics', sources = { 'nvim_lsp' }},harpoonFiles},
 		lualine_c = {},
 		lualine_x = {},
