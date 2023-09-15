@@ -59,7 +59,7 @@ if [ -n "$rcfile" ] && [ -f "$HOME/$rcfile" ]; then
 	read -r tmux
 	if [ "$tmux" = "y" ]; then
 		echo "Copying tmux config file to ~/.tmux.conf"
-		cp ~/.config/nvim/tmux.conf ~/.tmux.conf
+		cp ~/.config/nvim/.tmux.conf ~/.tmux.conf
 	fi
 
 	echo "\033[1;31mReopen your terminal and run 'nvim' to start using it!"
