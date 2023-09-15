@@ -18,7 +18,6 @@ require("lazy").setup({
 	{'ThePrimeagen/harpoon', event = "VeryLazy"},
 
 	{'nvim-telescope/telescope.nvim', event = "VeryLazy", config = function()
-		require('keymap')
 		require('telescope').load_extension('fzf')
 	end,
 	dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
@@ -60,11 +59,11 @@ require("lazy").setup({
 	end
 	},
 
-	{"nvim-treesitter/nvim-treesitter", event = "VeryLazy", build = ":TSUpdate", config = function()
+	{"nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
 		require'nvim-treesitter.configs'.setup {
 			ensure_installed = {"vim", "lua", "c", "python" },
 			auto_install = true,
-			highlight = {enable = true, additional_vim_regex_highlighting = false},
+			highlight = {enable = true, indent = true, additional_vim_regex_highlighting = false},
 		}
 	end
 	},
@@ -104,6 +103,7 @@ require("lazy").setup({
 })
 
 
+require('keymap')
 vim.g.user42 = 'ledos-sa'
 vim.g.mail42 = 'ledos-sa@student.42.fr'
 

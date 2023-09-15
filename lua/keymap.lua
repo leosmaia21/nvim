@@ -1,11 +1,10 @@
 local opts = { noremap = true, silent = true }
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, opts)
-vim.keymap.set('n', '<leader>fb', builtin.buffers, opts)
-vim.keymap.set('n', '<leader>d',  builtin.diagnostics, opts)
-vim.keymap.set('n', '<leader>of', builtin.oldfiles, opts)
-vim.keymap.set('n', '<leader>qf', builtin.quickfix, opts)
-vim.keymap.set('n', '<leader>m',  builtin.marks, opts)
+vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, opts)
+vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, opts)
+vim.keymap.set('n', '<leader>d',  require('telescope.builtin').diagnostics, opts)
+vim.keymap.set('n', '<leader>of', require('telescope.builtin').oldfiles, opts)
+vim.keymap.set('n', '<leader>qf', require('telescope.builtin').quickfix, opts)
+vim.keymap.set('n', '<leader>m',  require('telescope.builtin').marks, opts)
 vim.keymap.set('n', '<leader>fg', function()
 	local string = vim.fn.input("Grep > ")
 	if string ~= '' then builtin.grep_string({ search = string }) end
