@@ -1,77 +1,112 @@
--- Install packer
-local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
-local is_bootstrap = false
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-	is_bootstrap = true
-	vim.fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path }
-	vim.cmd [[packadd packer.nvim]]
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath})
 end
+vim.opt.rtp:prepend(lazypath)
 
-require('packer').startup(function(use)
-	use 'wbthomason/packer.nvim'
-	use 'sainnhe/gruvbox-material'
-	use 'ThePrimeagen/harpoon'
-	use 'tpope/vim-fugitive'
-	use 'nvim-telescope/telescope.nvim'
-	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
-	use 'nvim-lua/plenary.nvim'
-	use 'alexghergh/nvim-tmux-navigation'
-	use 'numToStr/Comment.nvim'
-	use 'tpope/vim-surround'
-	use 'mbbill/undotree'
-	use "mfussenegger/nvim-dap"
-	use "rcarriga/nvim-dap-ui"
-	use 'mfussenegger/nvim-dap-python'
-	use 'theHamsta/nvim-dap-virtual-text'
-	use 'nvim-lualine/lualine.nvim'
-	use 'chentoast/marks.nvim'
-	use {'nvim-treesitter/nvim-treesitter', run = function() 
-		local ts_update = require('nvim-treesitter.install').update({ with_sync = true }) ts_update() end}
-	use 'nvim-tree/nvim-web-devicons'
-	use 'nvim-tree/nvim-tree.lua'
-	use 'windwp/nvim-autopairs'
-	use 'github/copilot.vim'
-	use {
+vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
+require("lazy").setup({
+	{'sainnhe/gruvbox-material', priority = 1000, config = function()
+		vim.g.gruvbox_material_background = "hard"
+		vim.g.gruvbox_material_better_performance = 1
+		vim.g.gruvbox_material_foreground = 'original'
+		vim.g.gruvbox_material_colors_override ={bg0 = {'#181919', '255'}}
+		vim.cmd.colorscheme('gruvbox-material')
+	end
+	},
+
+	{'ThePrimeagen/harpoon', event = "VeryLazy"},
+
+	{'nvim-telescope/telescope.nvim', event = "VeryLazy", config = function()
+		require('keymap')
+		require('telescope').load_extension('fzf')
+	end,
+	dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
+	},
+
+	{'nvim-lua/plenary.nvim', lazy = true},
+
+	{'alexghergh/nvim-tmux-navigation', event = "VeryLazy", config = function()
+		require'nvim-tmux-navigation'.setup{}
+	end
+	},
+
+	{'numToStr/Comment.nvim', event = "VeryLazy", config = function()
+		require('Comment').setup()
+	end
+	},
+
+	{'tpope/vim-fugitive', event = "VeryLazy"},
+	{'tpope/vim-surround', event = "VeryLazy"},
+
+	{'mbbill/undotree', event = "VeryLazy"},
+
+	-- Debugger
+	{"mfussenegger/nvim-dap", event = "VeryLazy", config = function()
+		require('debugger')
+	end
+	},
+	{'theHamsta/nvim-dap-virtual-text', lazy = true},
+	{'mfussenegger/nvim-dap-python', lazy = true},
+	{"rcarriga/nvim-dap-ui", lazy = true},
+
+	{'nvim-lualine/lualine.nvim', event = "VeryLazy", config = function()
+		require('lualineconf')
+	end
+	},
+
+	{'chentoast/marks.nvim', event = "VeryLazy", config = function()
+		require'marks'.setup{force_write_shada = true}
+	end
+	},
+
+	{"nvim-treesitter/nvim-treesitter", event = "VeryLazy", build = ":TSUpdate", config = function()
+		require'nvim-treesitter.configs'.setup {
+			ensure_installed = {"vim", "lua", "c", "python" },
+			auto_install = true,
+			highlight = {enable = true, additional_vim_regex_highlighting = false},
+		}
+	end
+	},
+
+	{'nvim-tree/nvim-web-devicons', event = "VeryLazy"},
+	{'nvim-tree/nvim-tree.lua', event = "VeryLazy", config = function()
+		require("nvim-tree").setup{diagnostics = {enable=true, show_on_dirs=true}}
+	end
+	},
+
+	{'windwp/nvim-autopairs', event = "VeryLazy", config = function() 
+		require("nvim-autopairs").setup({ignored_next_char = "[%w%.]", disable_filetype = {"TelescopePrompt"}})
+	end},
+
+	{'github/copilot.vim', event = "VeryLazy"},
+
+	{
 		'VonHeikemen/lsp-zero.nvim',
+		config = function()
+			require('lualsp')
+		end,
 		branch = 'v2.x',
-		requires = {
+		dependencies = {
 			{'neovim/nvim-lspconfig'},
-			{'williamboman/mason.nvim', run = function() pcall(vim.cmd, 'MasonUpdate') end},
+			{'williamboman/mason.nvim',
 			{'williamboman/mason-lspconfig.nvim'},
 			{'hrsh7th/nvim-cmp'},
 			{'hrsh7th/cmp-nvim-lsp'},
 			{'L3MON4D3/LuaSnip'},
 			{'hrsh7th/cmp-path'},
 			{'hrsh7th/cmp-buffer'},
-		}
-	}
-	use {'42Paris/42header'}
-	use {'vim-syntastic/syntastic'}
-	use {'alexandregv/norminette-vim'}
-	if is_bootstrap then
-		require('packer').sync()
-	end
-end)
+		},
+	}},
+	{'42Paris/42header', event = "VeryLazy"},
+	{'vim-syntastic/syntastic', event = "VeryLazy"},
+	{'alexandregv/norminette-vim', event = "VeryLazy"},
+})
 
-if is_bootstrap then
-	print '=================================='
-	print '    Plugins are being installed'
-	print '    Wait until Packer completes,'
-	print '       then restart nvim'
-	print '=================================='
-	return
-end
 
 vim.g.user42 = 'ledos-sa'
 vim.g.mail42 = 'ledos-sa@student.42.fr'
 
-vim.g.gruvbox_material_background = "hard"
-vim.g.gruvbox_material_better_performance = 1
-vim.g.gruvbox_material_foreground = 'original'
-vim.g.gruvbox_material_colors_override ={bg0 = {'#181919', '255'}}
-vim.cmd.colorscheme('gruvbox-material')
-
-vim.g.mapleader = " "
 vim.g.termdebug_popup = 0
 vim.g.termdebug_wide = 1
 vim.opt.termguicolors = true
@@ -91,31 +126,9 @@ vim.opt.hidden = true
 vim.opt.undofile = true
 vim.opt.foldlevel = 99
 vim.opt.foldenable = false
+vim.opt.signcolumn = 'yes'
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-
-require('keymap')
-require('lualsp')
-require('debugger')
-require('lualineconf')
-
-require('Comment').setup()
-require'marks'.setup{force_write_shada = true}
-
-require('telescope').load_extension('fzf')
-
-require("nvim-autopairs").setup({ignored_next_char = "[%w%.]", disable_filetype = {"TelescopePrompt"}})
-
-require'nvim-treesitter.configs'.setup {
-	ensure_installed = {"vim", "lua", "c", "python" },
-	auto_install = true,
-	highlight = {
-		enable = true,
-		additional_vim_regex_highlighting = false,
-	},
-}
-
-require("nvim-tree").setup{diagnostics = {enable=true, show_on_dirs=true}}
 
 local save = vim.api.nvim_create_augroup("SavePositionWhenLeaving", {clear = true})
 vim.api.nvim_create_autocmd({"BufWrite"}, {
@@ -129,19 +142,10 @@ vim.api.nvim_create_autocmd({"BufReadPost"}, {
 	group = save,
 })
 
--- Automatically source and re-compile packer whenever you save this init.lua
-vim.api.nvim_create_autocmd('BufWritePost', {
-	command = 'source <afile> | PackerCompile',
-	group = vim.api.nvim_create_augroup('Packer', { clear = true }),
-	pattern = vim.fn.expand '$MYVIMRC',
-})
-
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup('yankcolor', {}),
 	command = ("silent! lua vim.highlight.on_yank {higroup='IncSearch', timeout=100}")
 })
-
-require'nvim-tmux-navigation'.setup{}
 
 vim.api.nvim_create_user_command('Norm', function()
 	vim.g.syntastic_c_checkers = {'norminette'}
