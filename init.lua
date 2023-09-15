@@ -80,7 +80,7 @@ require("lazy").setup({
 	end},
 
 	{'github/copilot.vim', event = "VeryLazy"},
-
+	
 	{
 		'VonHeikemen/lsp-zero.nvim',
 		config = function()
