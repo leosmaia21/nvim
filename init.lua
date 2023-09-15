@@ -18,6 +18,7 @@ require("lazy").setup({
 	{'ThePrimeagen/harpoon', event = "VeryLazy"},
 
 	{'nvim-telescope/telescope.nvim', event = "VeryLazy", config = function()
+		require('keymap')
 		require('telescope').load_extension('fzf')
 	end,
 	dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
@@ -103,7 +104,6 @@ require("lazy").setup({
 })
 
 
-require('keymap')
 vim.g.user42 = 'ledos-sa'
 vim.g.mail42 = 'ledos-sa@student.42.fr'
 
