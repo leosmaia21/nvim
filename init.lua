@@ -16,7 +16,7 @@ require("lazy").setup({
 	dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
 	},
 
-	{'nvim-lua/plenary.nvim'},
+	{'nvim-lua/plenary.nvim', lazy = true},
 
 	{'alexghergh/nvim-tmux-navigation', event = "VeryLazy", config = function()
 		require'nvim-tmux-navigation'.setup{}
@@ -42,7 +42,7 @@ require("lazy").setup({
 		},
 	},
 
-	{'nvim-lualine/lualine.nvim'},
+	{'nvim-lualine/lualine.nvim', config = function() require('lualineconf')end},
 
 	{'chentoast/marks.nvim', config = function()
 		require'marks'.setup{force_write_shada = true}
@@ -59,7 +59,7 @@ require("lazy").setup({
 	end
 	},
 
-	{'nvim-tree/nvim-web-devicons', event = "VeryLazy"},
+	{'nvim-tree/nvim-web-devicons', lazy = true},
 	{'nvim-tree/nvim-tree.lua', config = function()
 		require("nvim-tree").setup{diagnostics = {enable=true, show_on_dirs=true}}
 	end
@@ -91,9 +91,8 @@ require("lazy").setup({
 })
 
 require('keymap')
-require('lualsp')
-require('lualineconf')
 require('debugger')
+require('lualsp')
 
 vim.g.gruvbox_material_better_performance = 1
 vim.g.gruvbox_material_background = "hard"
