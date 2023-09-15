@@ -6,25 +6,17 @@ vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 require("lazy").setup({
-	{'sainnhe/gruvbox-material', priority = 1000, config = function()
-		vim.g.gruvbox_material_background = "hard"
-		vim.g.gruvbox_material_better_performance = 1
-		vim.g.gruvbox_material_foreground = 'original'
-		vim.g.gruvbox_material_colors_override ={bg0 = {'#181919', '255'}}
-		vim.cmd.colorscheme('gruvbox-material')
-	end
-	},
+	{'sainnhe/gruvbox-material', priority = 1000},
 
-	{'ThePrimeagen/harpoon', event = "VeryLazy"},
+	{'ThePrimeagen/harpoon'},
 
-	{'nvim-telescope/telescope.nvim', event = "VeryLazy", config = function()
-		require('keymap')
+	{'nvim-telescope/telescope.nvim', config = function()
 		require('telescope').load_extension('fzf')
 	end,
 	dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
 	},
 
-	{'nvim-lua/plenary.nvim', lazy = true},
+	{'nvim-lua/plenary.nvim'},
 
 	{'alexghergh/nvim-tmux-navigation', event = "VeryLazy", config = function()
 		require'nvim-tmux-navigation'.setup{}
@@ -42,20 +34,17 @@ require("lazy").setup({
 	{'mbbill/undotree', event = "VeryLazy"},
 
 	-- Debugger
-	{"mfussenegger/nvim-dap", event = "VeryLazy", config = function()
-		require('debugger')
-	end
-	},
-	{'theHamsta/nvim-dap-virtual-text', lazy = true},
-	{'mfussenegger/nvim-dap-python', lazy = true},
-	{"rcarriga/nvim-dap-ui", lazy = true},
-
-	{'nvim-lualine/lualine.nvim', event = "VeryLazy", config = function()
-		require('lualineconf')
-	end
+	{"mfussenegger/nvim-dap",
+		dependencies = {
+			{'theHamsta/nvim-dap-virtual-text'},
+			{'mfussenegger/nvim-dap-python'},
+			{"rcarriga/nvim-dap-ui"},
+		},
 	},
 
-	{'chentoast/marks.nvim', event = "VeryLazy", config = function()
+	{'nvim-lualine/lualine.nvim'},
+
+	{'chentoast/marks.nvim', config = function()
 		require'marks'.setup{force_write_shada = true}
 	end
 	},
@@ -70,7 +59,7 @@ require("lazy").setup({
 	},
 
 	{'nvim-tree/nvim-web-devicons', event = "VeryLazy"},
-	{'nvim-tree/nvim-tree.lua', event = "VeryLazy", config = function()
+	{'nvim-tree/nvim-tree.lua', config = function()
 		require("nvim-tree").setup{diagnostics = {enable=true, show_on_dirs=true}}
 	end
 	},
@@ -79,13 +68,10 @@ require("lazy").setup({
 		require("nvim-autopairs").setup({ignored_next_char = "[%w%.]", disable_filetype = {"TelescopePrompt"}})
 	end},
 
-	{'github/copilot.vim', event = "VeryLazy"},
+	{'github/copilot.vim'},
 	
 	{
 		'VonHeikemen/lsp-zero.nvim',
-		config = function()
-			require('lualsp')
-		end,
 		branch = 'v2.x',
 		dependencies = {
 			{'neovim/nvim-lspconfig'},
@@ -98,11 +84,21 @@ require("lazy").setup({
 			{'hrsh7th/cmp-buffer'},
 		},
 	}},
-	{'42Paris/42header', event = "VeryLazy"},
-	{'vim-syntastic/syntastic', event = "VeryLazy"},
-	{'alexandregv/norminette-vim', event = "VeryLazy"},
+	{'42Paris/42header'},
+	{'vim-syntastic/syntastic'},
+	{'alexandregv/norminette-vim'},
 })
 
+require('keymap')
+require('lualsp')
+require('lualineconf')
+require('debugger')
+
+vim.g.gruvbox_material_better_performance = 1
+vim.g.gruvbox_material_background = "hard"
+vim.g.gruvbox_material_foreground = 'original'
+vim.g.gruvbox_material_colors_override ={bg0 = {'#181919', '255'}}
+vim.cmd.colorscheme('gruvbox-material')
 
 vim.g.user42 = 'ledos-sa'
 vim.g.mail42 = 'ledos-sa@student.42.fr'
