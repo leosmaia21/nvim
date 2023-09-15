@@ -27,6 +27,10 @@ vim.keymap.set('n', '<A-9>', 	 function() require("harpoon.ui").nav_file(9) end,
 vim.keymap.set('n', '<A-l>', 	 function() require("harpoon.ui").nav_next() end, opts)
 vim.keymap.set('n', '<A-h>', 	 function() require("harpoon.ui").nav_prev() end, opts)
 
+
+vim.keymap.set('n', '<leader>j', "d3o", opts)
+vim.keymap.set('n', '<leader>f', "d2o", opts)
+
 -- vim.keymap.set('n', '<C-w>', '<C-w>w')
 local nvim_tmux_nav = require('nvim-tmux-navigation')
 vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)

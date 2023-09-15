@@ -30,6 +30,7 @@ require("lazy").setup({
 
 	{'tpope/vim-fugitive', event = "VeryLazy"},
 	{'tpope/vim-surround', event = "VeryLazy"},
+	{'tpope/vim-rhubarb', event = "VeryLazy"},
 
 	{'mbbill/undotree', event = "VeryLazy"},
 
