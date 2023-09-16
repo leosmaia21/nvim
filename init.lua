@@ -16,32 +16,29 @@ require("lazy").setup({
 	dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
 	},
 
-	{'nvim-lua/plenary.nvim', lazy = true},
+	{'nvim-lua/plenary.nvim'},
 
-	{'alexghergh/nvim-tmux-navigation', event = "VeryLazy", config = function()
+	{'alexghergh/nvim-tmux-navigation', config = function()
 		require'nvim-tmux-navigation'.setup{}
 	end
 	},
 
-	{'numToStr/Comment.nvim', event = "VeryLazy", config = function()
+	{'numToStr/Comment.nvim', config = function()
 		require('Comment').setup()
 	end
 	},
 
-	{'tpope/vim-fugitive', event = "VeryLazy"},
-	{'tpope/vim-surround', event = "VeryLazy"},
-	{'tpope/vim-rhubarb', event = "VeryLazy"},
+	{'tpope/vim-fugitive'},
+	{'tpope/vim-surround'},
+	{'tpope/vim-rhubarb'},
 
-	{'mbbill/undotree', event = "VeryLazy"},
+	{'mbbill/undotree'},
 
 	-- Debugger
-	{"mfussenegger/nvim-dap",
-		dependencies = {
-			{'theHamsta/nvim-dap-virtual-text'},
-			{'mfussenegger/nvim-dap-python'},
-			{"rcarriga/nvim-dap-ui"},
-		},
-	},
+	{"mfussenegger/nvim-dap"},
+	{'theHamsta/nvim-dap-virtual-text'},
+	{'mfussenegger/nvim-dap-python'},
+	{"rcarriga/nvim-dap-ui"},
 
 	{'nvim-lualine/lualine.nvim', config = function() require('lualineconf')end},
 
