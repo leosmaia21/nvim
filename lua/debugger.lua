@@ -10,6 +10,8 @@ require("nvim-dap-virtual-text").setup {
 	all_frames = true,                    -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
 }
 
+require("dapui").setup()
+
 local dap = require("dap")
 local dapui = require("dapui")
 
