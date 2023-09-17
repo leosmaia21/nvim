@@ -8,7 +8,7 @@ vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappin
 require("lazy").setup({
 	{'sainnhe/gruvbox-material', priority = 1000},
 
-	{'ThePrimeagen/harpoon'},
+	{'ThePrimeagen/harpoon', lazy = true},
 
 	{'nvim-telescope/telescope.nvim', config = function()
 		require('telescope').load_extension('fzf')
@@ -56,14 +56,21 @@ require("lazy").setup({
 			auto_install = true,
 			highlight = {enable = true, additional_vim_regex_highlighting = false},
 			indent = { enable = true },  
+			incremental_selection = {
+				enable = true,
+				keymaps = {
+					init_selection = "<c-a>", -- set to `false` to disable one of the mappings
+					node_incremental = "<c-a>",
+				},
+			},
 		}
-	end
+		end
 	},
 
 	{'nvim-tree/nvim-web-devicons', lazy = true},
 	{'nvim-tree/nvim-tree.lua', config = function()
 		require("nvim-tree").setup{diagnostics = {enable=true, show_on_dirs=true}}
-	end
+		end
 	},
 
 	{'windwp/nvim-autopairs', event = "VeryLazy", config = function() 
@@ -94,7 +101,7 @@ require("lazy").setup({
 require('keymap')
 require('debugger')
 require('lualsp')
-require('lualineconf')
+-- require('lualineconf')
 
 vim.g.gruvbox_material_better_performance = 1
 vim.g.gruvbox_material_background = "hard"
