@@ -8,7 +8,7 @@ vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappin
 require("lazy").setup({
 	{'sainnhe/gruvbox-material', priority = 1000},
 
-	{'ThePrimeagen/harpoon', lazy = true},
+	{'ThePrimeagen/harpoon'},
 
 	{'nvim-telescope/telescope.nvim', config = function()
 		require('telescope').load_extension('fzf')
@@ -101,7 +101,7 @@ require("lazy").setup({
 require('keymap')
 require('debugger')
 require('lualsp')
--- require('lualineconf')
+require('lualineconf')
 
 vim.g.gruvbox_material_better_performance = 1
 vim.g.gruvbox_material_background = "hard"
