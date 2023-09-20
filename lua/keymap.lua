@@ -41,6 +41,8 @@ vim.keymap.set('n', '<C-Down>', '<C-w>j')
 
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
 
+vim.keymap.set('n', '<leader>s', "<cmd> Telescope aerial<CR>", opts)
+
 vim.keymap.set('n', '<leader>e', '<Cmd>NvimTreeToggle<CR>')
 
 vim.keymap.set('n', '<leader><Tab>', '<C-6>')

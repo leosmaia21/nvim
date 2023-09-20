@@ -66,7 +66,13 @@ require("lazy").setup({
 		}
 		end
 	},
-
+	{'stevearc/aerial.nvim', event = 'VeryLazy', config = function() 
+		require('aerial').setup({
+			close_on_select = true,
+			autojump = true,
+		})
+		require('telescope').load_extension('aerial')
+	end },
 	{'nvim-tree/nvim-web-devicons', lazy = true},
 	{'nvim-tree/nvim-tree.lua', config = function()
 		require("nvim-tree").setup{diagnostics = {enable=true, show_on_dirs=true}}
@@ -108,6 +114,8 @@ vim.g.gruvbox_material_background = "hard"
 vim.g.gruvbox_material_foreground = 'original'
 vim.g.gruvbox_material_colors_override ={bg0 = {'#181919', '255'}}
 vim.cmd.colorscheme('gruvbox-material')
+
+-- You probably also want to set a keymap to toggle aerial
 
 vim.g.user42 = 'ledos-sa'
 vim.g.mail42 = 'ledos-sa@student.42.fr'
