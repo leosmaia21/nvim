@@ -1,6 +1,6 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath})
+	vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath})
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -12,20 +12,20 @@ require("lazy").setup({
 
 	{'nvim-telescope/telescope.nvim', config = function()
 		require('telescope').load_extension('fzf')
-	end,
-	dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
+		end,
+		dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
 	},
 
 	{'nvim-lua/plenary.nvim', lazy = true},
 
 	{'alexghergh/nvim-tmux-navigation', event = "VeryLazy", config = function()
 		require'nvim-tmux-navigation'.setup{}
-	end
+		end
 	},
 
 	{'numToStr/Comment.nvim', event = "VeryLazy", config = function()
 		require('Comment').setup()
-	end
+		end
 	},
 
 	{'tpope/vim-fugitive', event = "VeryLazy"},
@@ -47,7 +47,7 @@ require("lazy").setup({
 
 	{'chentoast/marks.nvim', config = function()
 		require'marks'.setup{force_write_shada = true}
-	end
+		end
 	},
 
 	{"nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
@@ -59,7 +59,7 @@ require("lazy").setup({
 			incremental_selection = {
 				enable = true,
 				keymaps = {
-					init_selection = "<c-a>", -- set to `false` to disable one of the mappings
+					init_selection = "<c-a>",
 					node_incremental = "<c-a>",
 				},
 			},
@@ -72,7 +72,7 @@ require("lazy").setup({
 			autojump = true,
 		})
 		require('telescope').load_extension('aerial')
-	end },
+		end },
 	{'nvim-tree/nvim-web-devicons', lazy = true},
 	{'nvim-tree/nvim-tree.lua', config = function()
 		require("nvim-tree").setup{diagnostics = {enable=true, show_on_dirs=true}}
@@ -84,20 +84,23 @@ require("lazy").setup({
 	end},
 
 	{'github/copilot.vim'},
-	
-	{'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'},
-	{'neovim/nvim-lspconfig'},
-	{'williamboman/mason.nvim'},
-	{'williamboman/mason-lspconfig.nvim'},
-	{'hrsh7th/nvim-cmp'},
-	{'hrsh7th/cmp-nvim-lsp'},
-	{'L3MON4D3/LuaSnip'},
-	{'hrsh7th/cmp-path'},
-	{'hrsh7th/cmp-buffer'},
 
-	{'42Paris/42header'},
-	{'vim-syntastic/syntastic'},
-	{'alexandregv/norminette-vim'},
+	{'VonHeikemen/lsp-zero.nvim', branch = 'v3.x',
+		dependencies = {
+			{'neovim/nvim-lspconfig'},
+			{'williamboman/mason.nvim'},
+			{'williamboman/mason-lspconfig.nvim'},
+			{'hrsh7th/nvim-cmp'},
+			{'hrsh7th/cmp-nvim-lsp'},
+			{'L3MON4D3/LuaSnip'},
+			{'hrsh7th/cmp-path'},
+			{'hrsh7th/cmp-buffer'},
+		}
+	},
+
+	{'42Paris/42header', event = "VeryLazy"},
+	{'vim-syntastic/syntastic', event = "VeryLazy"},
+	{'alexandregv/norminette-vim', event = "VeryLazy"},
 })
 
 require('keymap')
@@ -110,8 +113,6 @@ vim.g.gruvbox_material_background = "hard"
 vim.g.gruvbox_material_foreground = 'original'
 vim.g.gruvbox_material_colors_override ={bg0 = {'#181919', '255'}}
 vim.cmd.colorscheme('gruvbox-material')
-
--- You probably also want to set a keymap to toggle aerial
 
 vim.g.user42 = 'ledos-sa'
 vim.g.mail42 = 'ledos-sa@student.42.fr'
