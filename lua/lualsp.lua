@@ -1,40 +1,28 @@
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 local lspconfig = require('lspconfig')
+local lsp_zero = require('lsp-zero')
 
 require('mason').setup({})
 require("mason-lspconfig").setup {
 	ensure_installed = { "clangd", "pylsp"},
-	handlers = {
-		function(server_name)
-			lspconfig[server_name].setup {
-				capabilities = capabilities,
-				on_attach = function(client, bufnr)
-					client.server_capabilities.semanticTokensProvider = nil
-				end,
-			}
-		end
-	}
+	handlers = {lsp_zero.default_setup}
 }
 
-lspconfig.pylsp.setup{
-	capabilities = capabilities,
-	on_attach = function(client, bufnr)
-		client.server_capabilities.semanticTokensProvider = nil
-	end,
-	settings = { pylsp = { plugins = { pycodestyle =  { enabled = false }, pylint =  { enabled = false }, } } }
-}
+lsp_zero.set_server_config({
+  on_init = function(client)
+    client.server_capabilities.semanticTokensProvider = nil
+  end,
+})
 
 lspconfig.clangd.setup {
-	capabilities = capabilities,
-	on_attach = function(client, bufnr)
-		client.server_capabilities.semanticTokensProvider = nil
-	end,
 	cmd = {
 		"clangd",
 		"--offset-encoding=utf-16",
 	},
+}
+
+lspconfig.pylsp.setup{
+	settings = { pylsp = { plugins = { pycodestyle =  { enabled = false }, pylint =  { enabled = false }, } } }
 }
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -73,8 +61,8 @@ luasnip.config.set_config({
 cmp.setup({
 	sources = {
 		{name = 'nvim_lsp'},
-		{name = 'path' },
 		{name = 'buffer' },
+		{name = 'path' },
 		{name = 'luasnip' },
 	},
 	snippet = {
@@ -100,14 +88,6 @@ cmp.setup({
 			end
 			end, { "i", "s"})
 	},
-	formatting = {
-		fields = {'abbr', 'menu', 'kind'},
-		format = function(entry, item)
-			local short_name = { nvim_lsp = 'LSP', nvim_lua = 'nvim' }
-			local menu_name = short_name[entry.source.name] or entry.source.name
-			item.menu = string.format('[%s]', menu_name)
-			return item
-		end,
-	}
+	formatting = lsp_zero.cmp_format(),
 })
 
