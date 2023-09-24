@@ -85,20 +85,15 @@ require("lazy").setup({
 
 	{'github/copilot.vim'},
 	
-	{
-		'VonHeikemen/lsp-zero.nvim',
-		branch = 'v2.x',
-		dependencies = {
-			{'neovim/nvim-lspconfig'},
-			{'williamboman/mason.nvim',
-			{'williamboman/mason-lspconfig.nvim'},
-			{'hrsh7th/nvim-cmp'},
-			{'hrsh7th/cmp-nvim-lsp'},
-			{'L3MON4D3/LuaSnip'},
-			{'hrsh7th/cmp-path'},
-			{'hrsh7th/cmp-buffer'},
-		},
-	}},
+	{'neovim/nvim-lspconfig'},
+	{'williamboman/mason.nvim'},
+	{'williamboman/mason-lspconfig.nvim'},
+	{'hrsh7th/nvim-cmp'},
+	{'hrsh7th/cmp-nvim-lsp'},
+	{'L3MON4D3/LuaSnip'},
+	{'hrsh7th/cmp-path'},
+	{'hrsh7th/cmp-buffer'},
+
 	{'42Paris/42header'},
 	{'vim-syntastic/syntastic'},
 	{'alexandregv/norminette-vim'},
@@ -142,6 +137,8 @@ vim.opt.foldenable = false
 vim.opt.signcolumn = 'yes'
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+
+
 
 local save = vim.api.nvim_create_augroup("SavePositionWhenLeaving", {clear = true})
 vim.api.nvim_create_autocmd({"BufWrite"}, {

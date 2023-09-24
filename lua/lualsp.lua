@@ -1,98 +1,87 @@
 
---Ora muito bom dia, se quiserem usar o coc estão a vontade, mas aviso já que aquilo é feito em javascript...
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+local lspconfig = require('lspconfig')
 
-local lsp = require('lsp-zero').preset({
-	manage_nvim_cmp = {set_sources = "recommended"}
-})
-
-lsp.on_attach(function(client, bufnr)
-  lsp.default_keymaps({buffer = bufnr})
-end)
-
---Remove semantic highlighting from lsp, already have treesitter
-lsp.set_server_config({
-  on_init = function(client)
-    client.server_capabilities.semanticTokensProvider = nil
-  end,
-})
-
-require'lspconfig'.pylsp.setup{
-	on_attach=on_attach_vim,
-	settings = { 
-		pylsp = { 
-			plugins = {
-				pycodestyle =  { enabled = false },
-				pylint =  { enabled = false },
-			} 
-		} 
+require('mason').setup({})
+require("mason-lspconfig").setup {
+	ensure_installed = { "clangd", "pylsp"},
+	handlers = {
+		function(server_name)
+			lspconfig[server_name].setup {
+				capabilities = capabilities,
+				on_attach = function(client, bufnr)
+					client.server_capabilities.semanticTokensProvider = nil
+				end,
+			}
+		end
 	}
 }
 
--- local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
--- lsp_capabilities.textDocument.completion.completionItem.snippetSupport = false
-require("lspconfig").clangd.setup {
-	-- capabilities = lsp_capabilities,
-	-- capabilities = {
-	-- 	textDocument = {
-	-- 		completion = {
-	-- 			completionItem = {
-	-- 				snippetSupport = false,
-	-- 			},
-	-- 		},
-	-- 	},
-	-- },
+lspconfig.pylsp.setup{
+	capabilities = capabilities,
+	on_attach = function(client, bufnr)
+		client.server_capabilities.semanticTokensProvider = nil
+	end,
+	settings = { pylsp = { plugins = { pycodestyle =  { enabled = false }, pylint =  { enabled = false }, } } }
+}
+
+lspconfig.clangd.setup {
+	capabilities = capabilities,
+	on_attach = function(client, bufnr)
+		client.server_capabilities.semanticTokensProvider = nil
+	end,
 	cmd = {
 		"clangd",
 		"--offset-encoding=utf-16",
 	},
 }
 
-lsp.setup()
-
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-
 vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-  callback = function(ev)
-    -- Enable completion triggered by <c-x><c-o>
-    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-    -- Buffer local mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local opts = { buffer = ev.buf }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wl', function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, opts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', 'gr',  require('telescope.builtin').lsp_references, opts)
-    vim.keymap.set('n', '<A-f>', function()
-      vim.lsp.buf.format { async = true }
-    end, opts)
-  end,
+	group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+	callback = function(ev)
+		vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+		local opts = { buffer = ev.buf }
+		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+		vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+		vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+		-- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+		vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+		vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+		vim.keymap.set('n', '<space>wl', function()
+			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+		end, opts)
+		vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+		vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+		vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
+		vim.keymap.set('n', 'gr',  require('telescope.builtin').lsp_references, opts)
+		vim.keymap.set('n', '<A-f>', function()
+			vim.lsp.buf.format { async = true }
+		end, opts)
+	end,
 })
 
--- You need to setup `cmp` after lsp-zero
 local cmp = require('cmp')
-local cmp_action = require('lsp-zero').cmp_action()
 local luasnip = require('luasnip')
 
 luasnip.config.set_config({
 	history = true,
 	updateevents = 'TextChanged,TextChangedI',
-	-- region_check_events = 'InsertEnter',
-	-- delete_check_events = 'InsertLeave'
 })
 
 cmp.setup({
+	sources = {
+		{name = 'nvim_lsp'},
+		{name = 'path' },
+		{name = 'buffer' },
+		{name = 'luasnip' },
+	},
+	snippet = {
+		expand = function(args)
+			luasnip.lsp_expand(args.body)
+		end,
+	},
 	mapping = {
 		['<CR>'] = cmp.mapping.confirm({select = true}),
 		['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -110,9 +99,15 @@ cmp.setup({
 				luasnip.jump(-1)
 			end
 			end, { "i", "s"})
+	},
+	formatting = {
+		fields = {'abbr', 'menu', 'kind'},
+		format = function(entry, item)
+			local short_name = { nvim_lsp = 'LSP', nvim_lua = 'nvim' }
+			local menu_name = short_name[entry.source.name] or entry.source.name
+			item.menu = string.format('[%s]', menu_name)
+			return item
+		end,
 	}
 })
 
-require("mason-lspconfig").setup {
-	ensure_installed = { "clangd", "pylsp"},
-}
