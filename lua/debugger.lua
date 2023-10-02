@@ -1,5 +1,4 @@
 require('dap-python').setup()
-
 require("nvim-dap-virtual-text").setup {
 	enabled = true,
 	highlight_changed_variables = true,    -- highlight changed values with NvimDapVirtualTextChanged, else always NvimDapVirtualText
@@ -10,10 +9,10 @@ require("nvim-dap-virtual-text").setup {
 	all_frames = true,                    -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
 }
 
-require("dapui").setup()
-
 local dap = require("dap")
 local dapui = require("dapui")
+
+dapui.setup()
 
 dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
 dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
@@ -22,16 +21,8 @@ vim.keymap.set('n', '<F3>', function() dapui.toggle() end , opts)
 vim.api.nvim_create_user_command('Closedapui',function() dapui.close() end,{})
 vim.api.nvim_create_user_command('Opendapui',function() dapui.open() end,{})
 vim.api.nvim_create_user_command('Toggledapui',function() dapui.toggle() end,{})
-vim.api.nvim_create_user_command('Clearbreakpoints',function() require'dap'.clear_breakpoints() end,{})
+vim.api.nvim_create_user_command('Clearbreakpoints',function() dap.clear_breakpoints() end,{})
 
-dap.adapters.codelldb = {
-	type = 'server',
-	port = "${port}",
-	executable = {
-		command =vim.fn.stdpath("data") .. '/mason/bin/codelldb',
-		args = {"--port", "${port}"},
-	},
-}
 
 local programName = vim.fn.getcwd() .. "/"
 local argument_string = ' '
@@ -51,10 +42,42 @@ function startDebugger()
 	end
 	if vim.fn.input('Continue to debugger?(y/n): ', 'y') == 'y' then
 		return 1
-	else 
-		return 0
-	end
+	end 
+	return 0
 end
+
+local compDeb = 'make'
+vim.keymap.set('n', '<A-d>', function()
+	local filetype = vim.bo.filetype
+	if filetype ~= "c" and filetype ~= "cpp" and filetype ~= "rust" then print("Not c/c++ project!") return end
+	compDebaux = vim.fn.input('Compile to debug: ', compDeb)
+	if compDebaux ~= '' then
+		compDeb = compDebaux
+		vim.cmd("!" .. compDeb)
+	end
+	if (vim.api.nvim_eval("v:shell_error") ~= 0) then
+		print("Compile error!")
+		return
+	end
+	if startDebugger() == 1 then dap.continue() end
+end, opts)
+
+vim.keymap.set('n', '<A-e>', function()
+	local filetype = vim.bo.filetype
+	if filetype ~= "c" and filetype ~= "cpp" and filetype ~= "rust" then print("Not c/c++ project!") return end
+	vim.cmd("!" .. compDeb)
+	if vim.api.nvim_eval("v:shell_error") ~= 0 then return end
+	dap.continue()
+end, opts)
+
+dap.adapters.codelldb = {
+	type = 'server',
+	port = "${port}",
+	executable = {
+		command =vim.fn.stdpath("data") .. '/mason/bin/codelldb',
+		args = {"--port", "${port}"},
+	},
+}
 
 dap.configurations.c = {
 	{
@@ -70,27 +93,3 @@ dap.configurations.c = {
 }
 dap.configurations.cpp = dap.configurations.c
 dap.configurations.rust = dap.configurations.c
-
-local compDeb = 'make'
-vim.keymap.set('n', '<A-d>', function()
-	local filetype = vim.bo.filetype
-	if filetype ~= "c" and filetype ~= "cpp" and filetype ~= "rust" then print("Not c/c++ project!") return end
-	compDebaux = vim.fn.input('Compile to debug: ', compDeb)
-	if compDebaux ~= '' then
-		compDeb = compDebaux
-		vim.cmd("!" .. compDeb)
-	end
-	if (vim.api.nvim_eval("v:shell_error") ~= 0) then
-		print("Compile error!")
-		return
-	end
-	if startDebugger() == 1 then require'dap'.continue() end
-end, opts)
-
-vim.keymap.set('n', '<A-e>', function()
-	local filetype = vim.bo.filetype
-	if filetype ~= "c" and filetype ~= "cpp" and filetype ~= "rust" then print("Not c/c++ project!") return end
-	vim.cmd("!" .. compDeb)
-	if vim.api.nvim_eval("v:shell_error") ~= 0 then return end
-	require'dap'.continue()
-end, opts)
