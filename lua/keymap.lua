@@ -1,35 +1,40 @@
 local opts = { noremap = true, silent = true }
-vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, opts)
-vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, opts)
-vim.keymap.set('n', '<leader>d',  require('telescope.builtin').diagnostics, opts)
-vim.keymap.set('n', '<leader>of', require('telescope.builtin').oldfiles, opts)
-vim.keymap.set('n', '<leader>qf', require('telescope.builtin').quickfix, opts)
-vim.keymap.set('n', '<leader>m',  require('telescope.builtin').marks, opts)
+local telescope = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', telescope.find_files, opts)
+vim.keymap.set('n', '<leader>fb', telescope.buffers, opts)
+vim.keymap.set('n', '<leader>d',  telescope.diagnostics, opts)
+vim.keymap.set('n', '<leader>of', telescope.oldfiles, opts)
+vim.keymap.set('n', '<leader>qf', telescope.quickfix, opts)
+vim.keymap.set('n', '<leader>m',  telescope.marks, opts)
 vim.keymap.set('n', '<leader>fg', function()
-	local string = vim.fn.input("Grep > ")
-	if string ~= '' then builtin.grep_string({ search = string }) end
+	local str = vim.fn.input("Grep > ")
+	if str ~= '' then 
+		vim.cmd("silent! grep -rIi " .. str .. " * ")
+		telescope.quickfix()
+	end
 end, opts)
 
 vim.api.nvim_create_user_command('Delmarks',function() vim.cmd("delm!") vim.cmd("wshada!") end, {})
 
-vim.keymap.set('n', '<leader>a', function() require("harpoon.mark").add_file() end, opts)
-vim.keymap.set('n', '<leader>h', function() require("harpoon.ui").toggle_quick_menu()end,  opts)
-vim.keymap.set('n', '<A-1>', 	 function() require("harpoon.ui").nav_file(1) end, opts)
-vim.keymap.set('n', '<A-2>', 	 function() require("harpoon.ui").nav_file(2) end, opts)
-vim.keymap.set('n', '<A-3>', 	 function() require("harpoon.ui").nav_file(3) end, opts)
-vim.keymap.set('n', '<A-4>', 	 function() require("harpoon.ui").nav_file(4) end, opts)
-vim.keymap.set('n', '<A-5>', 	 function() require("harpoon.ui").nav_file(5) end, opts)
-vim.keymap.set('n', '<A-6>', 	 function() require("harpoon.ui").nav_file(6) end, opts)
-vim.keymap.set('n', '<A-7>', 	 function() require("harpoon.ui").nav_file(7) end, opts)
-vim.keymap.set('n', '<A-8>', 	 function() require("harpoon.ui").nav_file(8) end, opts)
-vim.keymap.set('n', '<A-9>', 	 function() require("harpoon.ui").nav_file(9) end, opts)
--- Move to previous/next
-vim.keymap.set('n', '<A-l>', 	 function() require("harpoon.ui").nav_next() end, opts)
-vim.keymap.set('n', '<A-h>', 	 function() require("harpoon.ui").nav_prev() end, opts)
+local harpoonUI = require("harpoon.ui")
+local harpoonMark = require("harpoon.mark")
+vim.keymap.set('n', '<leader>a', function() harpoonMark.add_file() end, opts)
+vim.keymap.set('n', '<leader>h', function() harpoonUI.toggle_quick_menu()end,  opts)
+vim.keymap.set('n', '<A-1>', 	 function() harpoonUI.nav_file(1) end, opts)
+vim.keymap.set('n', '<A-2>', 	 function() harpoonUI.nav_file(2) end, opts)
+vim.keymap.set('n', '<A-3>', 	 function() harpoonUI.nav_file(3) end, opts)
+vim.keymap.set('n', '<A-4>', 	 function() harpoonUI.nav_file(4) end, opts)
+vim.keymap.set('n', '<A-5>', 	 function() harpoonUI.nav_file(5) end, opts)
+vim.keymap.set('n', '<A-6>', 	 function() harpoonUI.nav_file(6) end, opts)
+vim.keymap.set('n', '<A-7>', 	 function() harpoonUI.nav_file(7) end, opts)
+vim.keymap.set('n', '<A-8>', 	 function() harpoonUI.nav_file(8) end, opts)
+vim.keymap.set('n', '<A-9>', 	 function() harpoonUI.nav_file(9) end, opts)
+vim.keymap.set('n', '<A-l>', 	 function() harpoonUI.nav_next() end, opts)
+vim.keymap.set('n', '<A-h>', 	 function() harpoonUI.nav_prev() end, opts)
 
 
-vim.keymap.set('n', '<leader>j', "d3o", opts)
-vim.keymap.set('n', '<leader>f', "d2o", opts)
+vim.keymap.set('n', '<leader>1', "d2o", opts)
+vim.keymap.set('n', '<leader>2', "d3o", opts)
 
 -- vim.keymap.set('n', '<C-w>', '<C-w>w')
 local nvim_tmux_nav = require('nvim-tmux-navigation')
@@ -38,6 +43,8 @@ vim.keymap.set('n', '<C-Right>', '<C-w>l')
 vim.keymap.set('n', '<C-Up>', '<C-w>k')
 vim.keymap.set('n', '<C-Left>', '<C-w>h')
 vim.keymap.set('n', '<C-Down>', '<C-w>j')
+
+vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
 
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
 
