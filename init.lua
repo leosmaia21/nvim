@@ -24,7 +24,7 @@ require("lazy").setup({
 		dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
 	},
 
-	{'nvim-lua/plenary.nvim', lazy = true},
+	{'nvim-lua/plenary.nvim'},
 
 	{'alexghergh/nvim-tmux-navigation', event = "VeryLazy", config = function()
 		require'nvim-tmux-navigation'.setup{}
@@ -105,9 +105,9 @@ require("lazy").setup({
 		}
 	},
 
-	{'42Paris/42header', event = "VeryLazy"},
-	{'vim-syntastic/syntastic', event = "VeryLazy"},
-	{'alexandregv/norminette-vim', event = "VeryLazy"},
+	{'42Paris/42header'},
+	{'vim-syntastic/syntastic'},
+	{'alexandregv/norminette-vim'},
 })
 
 require('keymap')
