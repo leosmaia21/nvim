@@ -1,13 +1,14 @@
 local opts = { noremap = true, silent = true }
 local telescope = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', telescope.find_files, opts)
+vim.keymap.set('n', '<leader>gf', telescope.git_files, opts)
 vim.keymap.set('n', '<leader>fb', telescope.buffers, opts)
 vim.keymap.set('n', '<leader>d',  telescope.diagnostics, opts)
 vim.keymap.set('n', '<leader>of', telescope.oldfiles, opts)
 vim.keymap.set('n', '<leader>qf', telescope.quickfix, opts)
 vim.keymap.set('n', '<leader>m',  telescope.marks, opts)
 vim.keymap.set('n', '<leader>fg', function()
-	local str = vim.fn.input("Grep > ")
+	local str = vim.fn.input("Grep> ")
 	if str ~= '' then 
 		vim.cmd("silent! grep -rIi " .. str .. " * ")
 		telescope.quickfix()

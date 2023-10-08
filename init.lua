@@ -11,6 +11,14 @@ require("lazy").setup({
 	{'ThePrimeagen/harpoon'},
 
 	{'nvim-telescope/telescope.nvim', config = function()
+		require('telescope').setup{
+			defaults = {
+				layout_config = {
+					prompt_position = "top",
+				},
+				sorting_strategy = "ascending",
+			},
+		}
 		require('telescope').load_extension('fzf')
 		end,
 		dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
@@ -67,10 +75,7 @@ require("lazy").setup({
 		end
 	},
 	{'stevearc/aerial.nvim', event = 'VeryLazy', config = function() 
-		require('aerial').setup({
-			close_on_select = true,
-			autojump = true,
-		})
+		require('aerial').setup({ close_on_select = true, autojump = true })
 		require('telescope').load_extension('aerial')
 		end },
 	{'nvim-tree/nvim-web-devicons', lazy = true},
@@ -82,6 +87,8 @@ require("lazy").setup({
 	{'windwp/nvim-autopairs', event = "VeryLazy", config = function() 
 		require("nvim-autopairs").setup({ignored_next_char = "[%w%.]", disable_filetype = {"TelescopePrompt"}})
 	end},
+
+	{'leosmaia21/gcompilecommands.nvim'},
 
 	{'github/copilot.vim'},
 
@@ -108,6 +115,7 @@ require('debugger')
 require('lualsp')
 require('lualineconf')
 
+-- require('cpgenerate')
 vim.g.gruvbox_material_better_performance = 1
 vim.g.gruvbox_material_background = "hard"
 vim.g.gruvbox_material_foreground = 'original'
