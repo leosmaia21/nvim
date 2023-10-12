@@ -17,7 +17,6 @@ dapui.setup()
 dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
 dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
 dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
-vim.keymap.set('n', '<F3>', function() dapui.toggle() end , opts)
 vim.api.nvim_create_user_command('Closedapui',function() dapui.close() end,{})
 vim.api.nvim_create_user_command('Opendapui',function() dapui.open() end,{})
 vim.api.nvim_create_user_command('Toggledapui',function() dapui.toggle() end,{})
@@ -26,6 +25,7 @@ vim.api.nvim_create_user_command('Clearbreakpoints',function() dap.clear_breakpo
 
 local programName = vim.fn.getcwd() .. "/"
 local argument_string = ' '
+local alreadySetup = false
 
 function startDebugger()
 	local filetype = vim.bo.filetype
@@ -59,12 +59,16 @@ vim.keymap.set('n', '<A-d>', function()
 		print("Compile error!")
 		return
 	end
-	if startDebugger() == 1 then dap.continue() end
+	if startDebugger() == 1 then 
+		alreadySetup = true
+		dap.continue()
+	end
 end, opts)
 
 vim.keymap.set('n', '<A-e>', function()
 	local filetype = vim.bo.filetype
 	if filetype ~= "c" and filetype ~= "cpp" and filetype ~= "rust" then print("Not c/c++ project!") return end
+	if alreadySetup == false then print("Debug not configured!") return end
 	vim.cmd("!" .. compDeb)
 	if vim.api.nvim_eval("v:shell_error") ~= 0 then return end
 	dap.continue()

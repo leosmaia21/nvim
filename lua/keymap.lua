@@ -39,51 +39,52 @@ vim.keymap.set('n', '<leader>2', "d3o", opts)
 
 -- vim.keymap.set('n', '<C-w>', '<C-w>w')
 local nvim_tmux_nav = require('nvim-tmux-navigation')
-vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
-vim.keymap.set('n', '<C-Right>', '<C-w>l')
-vim.keymap.set('n', '<C-Up>', '<C-w>k')
-vim.keymap.set('n', '<C-Left>', '<C-w>h')
-vim.keymap.set('n', '<C-Down>', '<C-w>j')
+vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext, opts)
+vim.keymap.set('n', '<C-Right>', '<C-w>l', opts)
+vim.keymap.set('n', '<C-Up>', '<C-w>k', opts)
+vim.keymap.set('n', '<C-Left>', '<C-w>h', opts)
+vim.keymap.set('n', '<C-Down>', '<C-w>j', opts)
 
-vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
+vim.keymap.set('n', '<leader>gs', vim.cmd.Git, opts)
 
-vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
+vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, opts)
 
 vim.keymap.set('n', '<leader>s', "<cmd> Telescope aerial<CR>", opts)
 
-vim.keymap.set('n', '<leader>e', '<Cmd>NvimTreeToggle<CR>')
+vim.keymap.set('n', '<leader>e', '<Cmd>NvimTreeToggle<CR>', opts)
 
-vim.keymap.set('n', '<leader><Tab>', '<C-6>')
+vim.keymap.set('n', '<leader><Tab>', '<C-6>', opts)
 
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", opts)
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", opts)
 
-vim.keymap.set('v', "<S-Tab>", "<gv")
-vim.keymap.set('v', "<Tab>", ">gv")
+vim.keymap.set('v', "<S-Tab>", "<gv", opts)
+vim.keymap.set('v', "<Tab>", ">gv", opts)
 
-vim.keymap.set('n', '<C-d>', '<C-d>zz')
-vim.keymap.set('n', '<C-u>', '<C-u>zz')
+vim.keymap.set('n', '<C-d>', '<C-d>zz', opts)
+vim.keymap.set('n', '<C-u>', '<C-u>zz', opts)
 
-vim.keymap.set('v', '<leader>y', '"+y')
-vim.keymap.set('n', '<leader>p', '"+p')
+vim.keymap.set('v', '<leader>y', '"+y', opts)
+vim.keymap.set('n', '<leader>p', '"+p', opts)
 
-vim.keymap.set('n', '<C-k>', '{')
-vim.keymap.set('n', '<C-j>', '}')
+vim.keymap.set('n', '<C-k>', '{', opts)
+vim.keymap.set('n', '<C-j>', '}', opts)
 
 vim.keymap.set('i', 'jj', '<Esc>', opts)
 
 vim.keymap.set('i', '<C-H>', '<C-W>', opts)
 
 vim.keymap.set('n', '<A-c>', '<Cmd>copen<CR>')
-vim.keymap.set('n', '<A-j>', '<Cmd>cnext<CR>zz')
-vim.keymap.set('n', '<A-k>', '<Cmd>cprevious<CR>zz')
+vim.keymap.set('n', '<A-j>', '<Cmd>cnext<CR>zz', opts)
+vim.keymap.set('n', '<A-k>', '<Cmd>cprevious<CR>zz', opts)
 
-vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
-vim.keymap.set('t', '<C-Space>', [[<C-\><C-n><C-W>w]])
+vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+vim.keymap.set('t', '<C-Space>', [[<C-\><C-n><C-W>w]], opts)
 
 vim.keymap.set({'n', 't'}, '<F5>', "<Cmd>lua require'dap'.continue()<CR>", opts)
 vim.keymap.set({'n', 't'}, '<F6>', "<Cmd>lua require'dap'.step_over()<CR>", opts)
 vim.keymap.set({'n', 't'}, '<F4>', "<Cmd>lua require'dap'.terminate()<CR>", opts)
+vim.keymap.set({'n', 't'}, '<F3>', "<Cmd>lua require'dapui'.toggle()<CR>", opts)
 vim.keymap.set({'n', 't'}, '<F7>', "<Cmd>lua require'dap'.step_into()<CR>", opts)
 vim.keymap.set({'n', 't'}, '<F8>', "<Cmd>lua require'dap'.step_out()<CR>", opts)
 vim.keymap.set({'n', 't'}, '<F9>', "<Cmd>lua require'dap'.run_last()<CR>", opts)
@@ -93,7 +94,7 @@ vim.keymap.set({'n'}, '<Leader>B', "<Cmd>lua require'dap'.set_breakpoint(vim.fn.
 vim.keymap.set({'n'}, '<Leader>lp', "<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opts)
 
 --disable arrow keys
-vim.keymap.set({'n', 'v'}, '<Up>',    function() print("Nope!") end)
-vim.keymap.set({'n', 'v'}, '<Down>',  function() print("Nope!") end)
-vim.keymap.set({'n', 'v'}, '<Left>',  function() print("Nope!") end)
-vim.keymap.set({'n', 'v'}, '<Right>', function() print("Nope!") end)
+vim.keymap.set({'n', 'v'}, '<Up>',    function() print("Nope!") end, opts)
+vim.keymap.set({'n', 'v'}, '<Down>',  function() print("Nope!") end, opts)
+vim.keymap.set({'n', 'v'}, '<Left>',  function() print("Nope!") end, opts)
+vim.keymap.set({'n', 'v'}, '<Right>', function() print("Nope!") end, opts)

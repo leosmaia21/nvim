@@ -115,11 +115,10 @@ require('debugger')
 require('lualsp')
 require('lualineconf')
 
--- require('cpgenerate')
 vim.g.gruvbox_material_better_performance = 1
 vim.g.gruvbox_material_background = "hard"
 vim.g.gruvbox_material_foreground = 'original'
-vim.g.gruvbox_material_colors_override ={bg0 = {'#181919', '255'}}
+vim.g.gruvbox_material_colors_override ={bg0 = {'#131919', '255'}, fg0 = {'#E1D6C3', '255'}}
 vim.cmd.colorscheme('gruvbox-material')
 
 vim.g.user42 = 'ledos-sa'
@@ -139,6 +138,7 @@ vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.scrolloff = 5
 vim.opt.smartindent = true
+-- vim.opt.splitright = true
 vim.opt.ignorecase = true
 vim.opt.hidden = true
 vim.opt.undofile = true
@@ -147,8 +147,6 @@ vim.opt.foldenable = false
 vim.opt.signcolumn = 'yes'
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-
-
 
 local save = vim.api.nvim_create_augroup("SavePositionWhenLeaving", {clear = true})
 vim.api.nvim_create_autocmd({"BufWrite"}, {
