@@ -144,6 +144,7 @@ vim.opt.hidden = true
 vim.opt.undofile = true
 vim.opt.foldlevel = 99
 vim.opt.foldenable = false
+vim.opt.mouse = ''
 vim.opt.signcolumn = 'yes'
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'

@@ -75,16 +75,20 @@ cmp.setup({
 		['<C-p>'] = cmp.mapping.select_prev_item(),
 		['<C-n>'] = cmp.mapping.select_next_item(),
 		['<C-c>'] = cmp.mapping.close(),
-		['<C-l>'] = cmp.mapping(function(fallback)
+		['<Tab>'] = cmp.mapping(function(fallback)
 			local status_ok, luasnip = pcall(require, "luasnip")
 			if status_ok and luasnip.expand_or_locally_jumpable() then
 				luasnip.expand_or_jump()
+			else
+				fallback()
 			end
 			end, { "i", "s"}),
-		['<C-m>'] = cmp.mapping(function(fallback)
+		['<S-Tab>'] = cmp.mapping(function(fallback)
 			local status_ok, luasnip = pcall(require, "luasnip")
 			if status_ok and luasnip.expand_or_locally_jumpable(-1) then
 				luasnip.jump(-1)
+			else
+				fallback()
 			end
 			end, { "i", "s"})
 	},

@@ -47,6 +47,8 @@ vim.keymap.set('n', '<C-Down>', '<C-w>j', opts)
 
 vim.keymap.set('n', '<leader>gs', vim.cmd.Git, opts)
 
+vim.keymap.set('n', '<CR>', 'ciw', opts)
+
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, opts)
 
 vim.keymap.set('n', '<leader>s', "<cmd> Telescope aerial<CR>", opts)
@@ -93,8 +95,13 @@ vim.keymap.set({'n'}, '<Leader>b', "<Cmd>lua require'dap'.toggle_breakpoint()<CR
 vim.keymap.set({'n'}, '<Leader>B', "<Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opts)
 vim.keymap.set({'n'}, '<Leader>lp', "<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opts)
 
---disable arrow keys
-vim.keymap.set({'n', 'v'}, '<Up>',    function() print("Nope!") end, opts)
-vim.keymap.set({'n', 'v'}, '<Down>',  function() print("Nope!") end, opts)
-vim.keymap.set({'n', 'v'}, '<Left>',  function() print("Nope!") end, opts)
-vim.keymap.set({'n', 'v'}, '<Right>', function() print("Nope!") end, opts)
+vim.keymap.set({'i'}, '<C-k>', '<Up>', opts)
+vim.keymap.set({'i'}, '<C-j>', '<Down>', opts)
+vim.keymap.set({'i'}, '<C-h>', '<Left>', opts)
+vim.keymap.set({'i'}, '<C-l>', '<Right>', opts)
+
+-- disable arrow keys 
+vim.keymap.set({'n', 'v', 'i'}, '<Up>',    function() print("") end, opts)
+vim.keymap.set({'n', 'v', 'i'}, '<Down>',  function() print("") end, opts)
+vim.keymap.set({'n', 'v', 'i'}, '<Left>',  function() print("") end, opts)
+vim.keymap.set({'n', 'v', 'i'}, '<Right>', function() print("") end, opts)
