@@ -43,10 +43,9 @@ require("lazy").setup({
 	{'mbbill/undotree', event = "VeryLazy"},
 
 	-- Debugger
-	--
-			{"rcarriga/nvim-dap-ui", commit = 'c020f66'},
 	{"mfussenegger/nvim-dap",
 		dependencies = {
+			{"rcarriga/nvim-dap-ui"},
 			{'theHamsta/nvim-dap-virtual-text'},
 			{'mfussenegger/nvim-dap-python'},
 		},
@@ -104,7 +103,7 @@ require("lazy").setup({
 			{'saadparwaiz1/cmp_luasnip'},
 			{'hrsh7th/cmp-path'},
 			{'hrsh7th/cmp-buffer'},
-			{'honza/vim-snippets'},
+			-- {'honza/vim-snippets'},
 			{'rafamadriz/friendly-snippets'},
 		}
 	},
@@ -136,13 +135,13 @@ vim.opt.relativenumber = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.cursorline = true
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.swapfile = false
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.scrolloff = 5
 vim.opt.smartindent = true
-vim.opt.splitright = true
+-- vim.opt.splitright = true  -- eu sei que isto e melhor, mas se estiver ativo a interface do debugger fica meio fdd (o scope nao volta para o codigo), mas se quisessemos merdas as funfrar bem usavamos o vscode ne??
 vim.opt.ignorecase = true
 vim.opt.hidden = true
 vim.opt.undofile = true
@@ -153,25 +152,25 @@ vim.opt.signcolumn = 'yes'
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
--- local save = vim.api.nvim_create_augroup("SavePositionWhenLeaving", {clear = true})
--- vim.api.nvim_create_autocmd({"BufWrite"}, {
--- 	pattern = { "*" },
--- 	group = save,
--- 	callback = function()
--- 		if  vim.api.nvim_buf_get_option(0, 'buftype') == '' then
--- 			vim.cmd("silent! mkview")
--- 		end
--- 	end
--- })
--- vim.api.nvim_create_autocmd({"BufReadPost"}, {
--- 	pattern = { "*" },
--- 	group = save,
--- 	callback = function()
--- 		if  vim.api.nvim_buf_get_option(0, 'buftype') == '' then
--- 			vim.cmd("silent! loadview")
--- 		end
--- 	end
--- })
+local save = vim.api.nvim_create_augroup("SavePositionWhenLeaving", {clear = true})
+vim.api.nvim_create_autocmd({"BufWrite"}, {
+	pattern = { "*" },
+	group = save,
+	callback = function()
+		if  vim.api.nvim_buf_get_option(0, 'buftype') == '' then
+			vim.cmd("silent! mkview")
+		end
+	end
+})
+vim.api.nvim_create_autocmd({"BufReadPost"}, {
+	pattern = { "*" },
+	group = save,
+	callback = function()
+		if  vim.api.nvim_buf_get_option(0, 'buftype') == '' then
+			vim.cmd("silent! loadview")
+		end
+	end
+})
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup('yankcolor', {}),
