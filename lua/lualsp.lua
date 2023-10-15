@@ -45,13 +45,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
 		vim.keymap.set('n', 'gr',  require('telescope.builtin').lsp_references, opts)
 		vim.keymap.set('n', '<A-f>', function()
-			vim.lsp.buf.format { async = true }
+			vim.lsp.buf.format {{tabSize= 4}, async = true }
 		end, opts)
 	end,
 })
 
 local cmp = require('cmp')
 local luasnip = require('luasnip')
+
+-- require('luasnip.loaders.from_snipmate').lazy_load()
+require('luasnip.loaders.from_vscode').lazy_load()
+
 
 luasnip.config.set_config({
 	history = true,
@@ -61,9 +65,9 @@ luasnip.config.set_config({
 cmp.setup({
 	sources = {
 		{name = 'nvim_lsp'},
+		{name = 'luasnip' },
 		{name = 'buffer' },
 		{name = 'path' },
-		{name = 'luasnip' },
 	},
 	snippet = {
 		expand = function(args)

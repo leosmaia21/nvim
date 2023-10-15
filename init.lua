@@ -43,11 +43,12 @@ require("lazy").setup({
 	{'mbbill/undotree', event = "VeryLazy"},
 
 	-- Debugger
+	--
+			{"rcarriga/nvim-dap-ui", commit = 'c020f66'},
 	{"mfussenegger/nvim-dap",
 		dependencies = {
 			{'theHamsta/nvim-dap-virtual-text'},
 			{'mfussenegger/nvim-dap-python'},
-			{"rcarriga/nvim-dap-ui"},
 		},
 	},
 
@@ -100,14 +101,17 @@ require("lazy").setup({
 			{'hrsh7th/nvim-cmp'},
 			{'hrsh7th/cmp-nvim-lsp'},
 			{'L3MON4D3/LuaSnip'},
+			{'saadparwaiz1/cmp_luasnip'},
 			{'hrsh7th/cmp-path'},
 			{'hrsh7th/cmp-buffer'},
+			{'honza/vim-snippets'},
+			{'rafamadriz/friendly-snippets'},
 		}
 	},
 
 	{'42Paris/42header'},
-	{'vim-syntastic/syntastic'},
-	{'alexandregv/norminette-vim'},
+	{'vim-syntastic/syntastic', ft = 'c'},
+	{'alexandregv/norminette-vim', ft = 'c'},
 })
 
 require('keymap')
@@ -149,17 +153,25 @@ vim.opt.signcolumn = 'yes'
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
-local save = vim.api.nvim_create_augroup("SavePositionWhenLeaving", {clear = true})
-vim.api.nvim_create_autocmd({"BufWrite"}, {
-	pattern = { "*" },
-	command = "silent! mkview",
-	group = save,
-})
-vim.api.nvim_create_autocmd({"BufReadPost"}, {
-	pattern = { "*" },
-	command = "silent! loadview",
-	group = save,
-})
+-- local save = vim.api.nvim_create_augroup("SavePositionWhenLeaving", {clear = true})
+-- vim.api.nvim_create_autocmd({"BufWrite"}, {
+-- 	pattern = { "*" },
+-- 	group = save,
+-- 	callback = function()
+-- 		if  vim.api.nvim_buf_get_option(0, 'buftype') == '' then
+-- 			vim.cmd("silent! mkview")
+-- 		end
+-- 	end
+-- })
+-- vim.api.nvim_create_autocmd({"BufReadPost"}, {
+-- 	pattern = { "*" },
+-- 	group = save,
+-- 	callback = function()
+-- 		if  vim.api.nvim_buf_get_option(0, 'buftype') == '' then
+-- 			vim.cmd("silent! loadview")
+-- 		end
+-- 	end
+-- })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup('yankcolor', {}),
