@@ -17,41 +17,26 @@ end, opts)
 
 vim.api.nvim_create_user_command('Delmarks',function() vim.cmd("delm!") vim.cmd("wshada!") end, {})
 
-local harpoonUI = require("harpoon.ui")
-local harpoonMark = require("harpoon.mark")
-vim.keymap.set('n', '<leader>a', function() harpoonMark.add_file() end, opts)
-vim.keymap.set('n', '<leader>h', function() harpoonUI.toggle_quick_menu()end,  opts)
-vim.keymap.set('n', '<A-1>', 	 function() harpoonUI.nav_file(1) end, opts)
-vim.keymap.set('n', '<A-2>', 	 function() harpoonUI.nav_file(2) end, opts)
-vim.keymap.set('n', '<A-3>', 	 function() harpoonUI.nav_file(3) end, opts)
-vim.keymap.set('n', '<A-4>', 	 function() harpoonUI.nav_file(4) end, opts)
-vim.keymap.set('n', '<A-5>', 	 function() harpoonUI.nav_file(5) end, opts)
-vim.keymap.set('n', '<A-6>', 	 function() harpoonUI.nav_file(6) end, opts)
-vim.keymap.set('n', '<A-7>', 	 function() harpoonUI.nav_file(7) end, opts)
-vim.keymap.set('n', '<A-8>', 	 function() harpoonUI.nav_file(8) end, opts)
-vim.keymap.set('n', '<A-9>', 	 function() harpoonUI.nav_file(9) end, opts)
-vim.keymap.set('n', '<A-l>', 	 function() harpoonUI.nav_next() end, opts)
-vim.keymap.set('n', '<A-h>', 	 function() harpoonUI.nav_prev() end, opts)
-
-
-vim.keymap.set('n', '<leader>1', "d2o", opts)
-vim.keymap.set('n', '<leader>2', "d3o", opts)
+vim.keymap.set('n', '<leader>a', function() require("harpoon.mark").add_file() end, opts)
+vim.keymap.set('n', '<leader>h', function() require("harpoon.ui").toggle_quick_menu()end,  opts)
+for i = 1, 9 do
+	vim.keymap.set('n', '<A-'..i..'>', function() require("harpoon.ui").nav_file(i) end, opts)
+end 
+vim.keymap.set('n', '<A-l>', 	 function() require("harpoon.ui").nav_next() end, opts)
+vim.keymap.set('n', '<A-h>', 	 function() require("harpoon.ui").nav_prev() end, opts)
 
 -- vim.keymap.set('n', '<C-w>', '<C-w>w')
-local nvim_tmux_nav = require('nvim-tmux-navigation')
-vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext, opts)
-vim.keymap.set('n', '<C-Right>', '<C-w>l', opts)
-vim.keymap.set('n', '<C-Up>', '<C-w>k', opts)
-vim.keymap.set('n', '<C-Left>', '<C-w>h', opts)
-vim.keymap.set('n', '<C-Down>', '<C-w>j', opts)
+vim.keymap.set('n', "<C-Space>", require('nvim-tmux-navigation').NvimTmuxNavigateNext, opts)
+vim.keymap.set('n', '<A-Up>', '<C-w>k', opts)
+vim.keymap.set('n', '<A-Right>', '<C-w>l', opts)
+vim.keymap.set('n', '<A-Left>', '<C-w>h', opts)
+vim.keymap.set('n', '<A-Down>', '<C-w>j', opts)
 
 vim.keymap.set('n', '<leader>gs', vim.cmd.Git, opts)
 
-vim.keymap.set('n', '<CR>', 'ciw', opts)
-
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, opts)
 
-vim.keymap.set('n', '<leader>s', "<cmd> Telescope aerial<CR>", opts)
+vim.keymap.set('n', '<leader>s', "<cmd>Telescope aerial<CR>", opts)
 
 vim.keymap.set('n', '<leader>e', '<Cmd>NvimTreeToggle<CR>', opts)
 
@@ -96,7 +81,7 @@ vim.keymap.set({'n'}, '<Leader>B', "<Cmd>lua require'dap'.set_breakpoint(vim.fn.
 vim.keymap.set({'n'}, '<Leader>lp', "<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opts)
 
 -- disable arrow keys 
-vim.keymap.set({'n', 'v'}, '<Up>',    function() print("") end, opts)
-vim.keymap.set({'n', 'v'}, '<Down>',  function() print("") end, opts)
-vim.keymap.set({'n', 'v'}, '<Left>',  function() print("") end, opts)
-vim.keymap.set({'n', 'v'}, '<Right>', function() print("") end, opts)
+vim.keymap.set({'n', 'v'}, '<Up>',    function() print("Bom dia") end, opts)
+vim.keymap.set({'n', 'v'}, '<Down>',  function() print("Bom dia") end, opts)
+vim.keymap.set({'n', 'v'}, '<Left>',  function() print("Bom dia") end, opts)
+vim.keymap.set({'n', 'v'}, '<Right>', function() print("Bom dia") end, opts)

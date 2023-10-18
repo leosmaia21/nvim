@@ -11,13 +11,9 @@ require("lazy").setup({
 	{'ThePrimeagen/harpoon'},
 
 	{'nvim-telescope/telescope.nvim', config = function()
-		require('telescope').setup{
-			defaults = {
-				layout_config = {
-					prompt_position = "top",
-				},
-				sorting_strategy = "ascending",
-			},
+		require('telescope').setup{defaults = {
+				layout_config = {prompt_position = "top"},
+				sorting_strategy = "ascending"},
 		}
 		require('telescope').load_extension('fzf')
 		end,
@@ -36,13 +32,16 @@ require("lazy").setup({
 		end
 	},
 
+	{'mg979/vim-visual-multi'},
+
 	{'tpope/vim-fugitive', event = "VeryLazy"},
-	{'tpope/vim-surround', event = "VeryLazy"},
 	{'tpope/vim-rhubarb', event = "VeryLazy"},
+	{'kylechui/nvim-surround', version = "*", event = "VeryLazy",
+		config = function() require("nvim-surround").setup() end
+	},
 
 	{'mbbill/undotree', event = "VeryLazy"},
 
-	-- Debugger
 	{"mfussenegger/nvim-dap",
 		dependencies = {
 			{"rcarriga/nvim-dap-ui"},
@@ -53,10 +52,7 @@ require("lazy").setup({
 
 	{'nvim-lualine/lualine.nvim'},
 
-	{'chentoast/marks.nvim', config = function()
-		require'marks'.setup{force_write_shada = true}
-		end
-	},
+	{'chentoast/marks.nvim', config = function() require'marks'.setup{force_write_shada = true} end },
 
 	{"nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
 		require'nvim-treesitter.configs'.setup {
@@ -103,7 +99,6 @@ require("lazy").setup({
 			{'saadparwaiz1/cmp_luasnip'},
 			{'hrsh7th/cmp-path'},
 			{'hrsh7th/cmp-buffer'},
-			-- {'honza/vim-snippets'},
 			{'rafamadriz/friendly-snippets'},
 		}
 	},
@@ -127,15 +122,13 @@ vim.cmd.colorscheme('gruvbox-material')
 vim.g.user42 = 'ledos-sa'
 vim.g.mail42 = 'ledos-sa@student.42.fr'
 
-vim.g.termdebug_popup = 0
-vim.g.termdebug_wide = 1
 vim.opt.termguicolors = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.cursorline = true
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.opt.swapfile = false
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
