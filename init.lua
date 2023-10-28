@@ -170,6 +170,13 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	command = ("silent! lua vim.highlight.on_yank {higroup='IncSearch', timeout=100}")
 })
 
+vim.api.nvim_create_user_command('ClangFormart', function()
+	vim.cmd('silent! !echo "UseTab: Always" > .clang-format')
+	vim.cmd('silent! !echo "IndentWidth: 4" >> .clang-format')
+	vim.cmd('silent! !echo "TabWidth: 4" >> .clang-format')
+	vim.cmd('silent! !echo "ColumnLimit: 1000000" >> .clang-format')
+	vim.cmd('silent! LspRestart')
+end ,{})
 vim.api.nvim_create_user_command('Norm', function()
 	vim.g.syntastic_c_checkers = {'norminette'}
 	vim.g.syntastic_aggregate_errors = 1

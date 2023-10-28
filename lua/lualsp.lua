@@ -45,12 +45,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
--- require('luasnip.loaders.from_snipmate').lazy_load()
 require('luasnip.loaders.from_vscode').lazy_load()
 
 luasnip.config.set_config({
 	history = true,
-	updateevents = 'TextChanged,TextChangedI',
+	region_check_events = "InsertEnter",
+	delete_check_events = "TextChanged,InsertLeave",
 })
 
 cmp.setup({
