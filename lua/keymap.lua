@@ -27,10 +27,10 @@ vim.keymap.set('n', '<A-h>', 	 function() require("harpoon.ui").nav_prev() end, 
 
 -- vim.keymap.set('n', '<C-w>', '<C-w>w')
 vim.keymap.set('n', "<C-Space>", require('nvim-tmux-navigation').NvimTmuxNavigateNext, opts)
-vim.keymap.set('n', '<A-Up>', '<C-w>k', opts)
-vim.keymap.set('n', '<A-Right>', '<C-w>l', opts)
-vim.keymap.set('n', '<A-Left>', '<C-w>h', opts)
-vim.keymap.set('n', '<A-Down>', '<C-w>j', opts)
+vim.keymap.set('n', '<Up>', '<C-w>k', opts)
+vim.keymap.set('n', '<Right>', '<C-w>l', opts)
+vim.keymap.set('n', '<Left>', '<C-w>h', opts)
+vim.keymap.set('n', '<Down>', '<C-w>j', opts)
 
 vim.keymap.set('n', '<leader>gs', vim.cmd.Git, opts)
 
@@ -52,7 +52,7 @@ vim.keymap.set('n', '<C-d>', '<C-d>zz', opts)
 vim.keymap.set('n', '<C-u>', '<C-u>zz', opts)
 
 vim.keymap.set('v', '<leader>y', '"+y', opts)
-vim.keymap.set('n', '<leader>p', '"+p', opts)
+vim.keymap.set({'n', 'v'}, '<leader>p', '"+p', opts)
 
 vim.keymap.set('n', '<C-k>', '{', opts)
 vim.keymap.set('n', '<C-j>', '}', opts)
@@ -79,9 +79,3 @@ vim.keymap.set({'n', 't'}, '<F10>', "<Cmd>lua require'dap'.run_to_cursor()<CR>",
 vim.keymap.set({'n'}, '<Leader>b', "<Cmd>lua require'dap'.toggle_breakpoint()<CR>", opts)
 vim.keymap.set({'n'}, '<Leader>B', "<Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opts)
 vim.keymap.set({'n'}, '<Leader>lp', "<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opts)
-
--- disable arrow keys 
-vim.keymap.set({'n', 'v'}, '<Up>',    function() print("Bom dia") end, opts)
-vim.keymap.set({'n', 'v'}, '<Down>',  function() print("Bom dia") end, opts)
-vim.keymap.set({'n', 'v'}, '<Left>',  function() print("Bom dia") end, opts)
-vim.keymap.set({'n', 'v'}, '<Right>', function() print("Bom dia") end, opts)

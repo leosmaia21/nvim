@@ -13,12 +13,7 @@ lsp_zero.set_server_config({
   end,
 })
 
-lspconfig.clangd.setup {
-	cmd = {
-		"clangd",
-		"--offset-encoding=utf-16",
-	},
-}
+lspconfig.clangd.setup {cmd = { "clangd", "--offset-encoding=utf-16", }}
 
 lspconfig.pylsp.setup{
 	settings = { pylsp = { plugins = { pycodestyle =  { enabled = false }, pylint =  { enabled = false }, } } }

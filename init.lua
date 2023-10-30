@@ -7,9 +7,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 require("lazy").setup({
 	{'sainnhe/gruvbox-material', priority = 1000},
-
 	{'ThePrimeagen/harpoon'},
-
 	{'nvim-telescope/telescope.nvim', config = function()
 		require('telescope').setup{defaults = {
 				layout_config = {prompt_position = "top"},
@@ -19,36 +17,25 @@ require("lazy").setup({
 		end,
 		dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
 	},
-
 	{'nvim-lua/plenary.nvim'},
-
 	{'alexghergh/nvim-tmux-navigation', event = "VeryLazy", config = function()
-		require'nvim-tmux-navigation'.setup{}
-		end
-	},
-
+		require'nvim-tmux-navigation'.setup{} end },
 	{'numToStr/Comment.nvim', event = "VeryLazy", config = function()
-		require('Comment').setup()
-		end
-	},
+		require('Comment').setup() end },
 
 	{'mg979/vim-visual-multi'},
 
 	{'tpope/vim-fugitive', event = "VeryLazy"},
 	{'tpope/vim-rhubarb', event = "VeryLazy"},
 	{'kylechui/nvim-surround', version = "*", event = "VeryLazy",
-		config = function() require("nvim-surround").setup() end
-	},
+		config = function() require("nvim-surround").setup() end },
 
 	{'mbbill/undotree', event = "VeryLazy"},
 
-	{"mfussenegger/nvim-dap",
-		dependencies = {
-			{"rcarriga/nvim-dap-ui"},
-			{'theHamsta/nvim-dap-virtual-text'},
-			{'mfussenegger/nvim-dap-python'},
-		},
-	},
+	{"mfussenegger/nvim-dap"},
+	{'theHamsta/nvim-dap-virtual-text'},
+	{"rcarriga/nvim-dap-ui"},
+	{'mfussenegger/nvim-dap-python'},
 
 	{'nvim-lualine/lualine.nvim'},
 
@@ -128,15 +115,10 @@ vim.opt.relativenumber = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.cursorline = true
-vim.opt.wrap = false
 vim.opt.swapfile = false
-vim.opt.hlsearch = true
-vim.opt.incsearch = true
 vim.opt.scrolloff = 5
 vim.opt.smartindent = true
--- vim.opt.splitright = true  -- eu sei que isto e melhor, mas se estiver ativo a interface do debugger fica meio fdd (o scope nao volta para o codigo), mas se quisessemos merdas as funfrar bem usavamos o vscode ne??
 vim.opt.ignorecase = true
-vim.opt.hidden = true
 vim.opt.undofile = true
 vim.opt.foldlevel = 99
 vim.opt.foldenable = false
@@ -147,7 +129,6 @@ vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
 local save = vim.api.nvim_create_augroup("SavePositionWhenLeaving", {clear = true})
 vim.api.nvim_create_autocmd({"BufWrite"}, {
-	pattern = { "*" },
 	group = save,
 	callback = function()
 		if  vim.api.nvim_buf_get_option(0, 'buftype') == '' then
@@ -156,7 +137,6 @@ vim.api.nvim_create_autocmd({"BufWrite"}, {
 	end
 })
 vim.api.nvim_create_autocmd({"BufReadPost"}, {
-	pattern = { "*" },
 	group = save,
 	callback = function()
 		if  vim.api.nvim_buf_get_option(0, 'buftype') == '' then
@@ -177,6 +157,7 @@ vim.api.nvim_create_user_command('ClangFormart', function()
 	vim.cmd('silent! !echo "ColumnLimit: 1000000" >> .clang-format')
 	vim.cmd('silent! LspRestart')
 end ,{})
+
 vim.api.nvim_create_user_command('Norm', function()
 	vim.g.syntastic_c_checkers = {'norminette'}
 	vim.g.syntastic_aggregate_errors = 1
