@@ -4,6 +4,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local tabNumber = 2
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 require("lazy").setup({
 	{'sainnhe/gruvbox-material', priority = 1000},
@@ -27,8 +28,7 @@ require("lazy").setup({
 
 	{'tpope/vim-fugitive', event = "VeryLazy"},
 	{'tpope/vim-rhubarb', event = "VeryLazy"},
-	{'kylechui/nvim-surround', version = "*", event = "VeryLazy",
-		config = function() require("nvim-surround").setup() end },
+	{'kylechui/nvim-surround', version = "*", config = function() require("nvim-surround").setup() end },
 
 	{'mbbill/undotree', event = "VeryLazy"},
 
@@ -40,6 +40,14 @@ require("lazy").setup({
 	{'nvim-lualine/lualine.nvim'},
 
 	{'chentoast/marks.nvim', config = function() require'marks'.setup{force_write_shada = true} end },
+
+	{'lukas-reineke/indent-blankline.nvim',
+		main = 'ibl', config = function()
+			require"ibl".setup{
+				indent = {char = "│"},
+				scope = {enabled = false},
+			} end
+	},
 
 	{"nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
 		require'nvim-treesitter.configs'.setup {
@@ -100,6 +108,7 @@ require('debugger')
 require('lualsp')
 require('lualineconf')
 
+
 vim.g.gruvbox_material_better_performance = 1
 vim.g.gruvbox_material_background = "hard"
 vim.g.gruvbox_material_foreground = 'original'
@@ -112,9 +121,10 @@ vim.g.mail42 = 'ledos-sa@student.42.fr'
 vim.opt.termguicolors = true
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.tabstop = tabNumber
+vim.opt.shiftwidth = tabNumber
 vim.opt.cursorline = true
+vim.opt.linebreak = true
 vim.opt.swapfile = false
 vim.opt.scrolloff = 5
 vim.opt.smartindent = true
@@ -152,9 +162,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 vim.api.nvim_create_user_command('ClangFormart', function()
 	vim.cmd('silent! !echo "UseTab: Always" > .clang-format')
-	vim.cmd('silent! !echo "IndentWidth: 4" >> .clang-format')
-	vim.cmd('silent! !echo "TabWidth: 4" >> .clang-format')
+	vim.cmd('silent! !echo "IndentWidth: "'..tabNumber.. '>> .clang-format')
+	vim.cmd('silent! !echo "TabWidth: "'..tabNumber.. '>> .clang-format')
 	vim.cmd('silent! !echo "ColumnLimit: 1000000" >> .clang-format')
+	vim.cmd('silent! !echo "AllowShortFunctionsOnASingleLine: Empty" >> .clang-format')
 	vim.cmd('silent! LspRestart')
 end ,{})
 
