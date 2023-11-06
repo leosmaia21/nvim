@@ -4,7 +4,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local tabNumber = 2
+vim.g.tabNumber = 2
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 require("lazy").setup({
 	{'sainnhe/gruvbox-material', priority = 1000},
@@ -121,8 +121,8 @@ vim.g.mail42 = 'ledos-sa@student.42.fr'
 vim.opt.termguicolors = true
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.tabstop = tabNumber
-vim.opt.shiftwidth = tabNumber
+vim.opt.tabstop = vim.g.tabNumber
+vim.opt.shiftwidth = vim.g.tabNumber
 vim.opt.cursorline = true
 vim.opt.linebreak = true
 vim.opt.swapfile = false
@@ -136,6 +136,8 @@ vim.opt.mouse = ''
 vim.opt.signcolumn = 'yes'
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+
+vim.cmd("autocmd FileType python set shiftwidth="..vim.g.tabNumber.." tabstop="..vim.g.tabNumber)
 
 local save = vim.api.nvim_create_augroup("SavePositionWhenLeaving", {clear = true})
 vim.api.nvim_create_autocmd({"BufWrite"}, {
