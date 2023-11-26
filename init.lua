@@ -164,8 +164,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 vim.api.nvim_create_user_command('ClangFormart', function()
 	vim.cmd('silent! !echo "UseTab: Always" > .clang-format')
-	vim.cmd('silent! !echo "IndentWidth: "'..tabNumber.. '>> .clang-format')
-	vim.cmd('silent! !echo "TabWidth: "'..tabNumber.. '>> .clang-format')
+	vim.cmd('silent! !echo "IndentWidth: "'..vim.g.tabNumber.. '>> .clang-format')
+	vim.cmd('silent! !echo "TabWidth: "'..vim.g.tabNumber.. '>> .clang-format')
 	vim.cmd('silent! !echo "ColumnLimit: 1000000" >> .clang-format')
 	vim.cmd('silent! !echo "AllowShortFunctionsOnASingleLine: Empty" >> .clang-format')
 	vim.cmd('silent! LspRestart')
