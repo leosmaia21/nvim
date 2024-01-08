@@ -25,7 +25,7 @@ require("lazy").setup({
 	{'numToStr/Comment.nvim', event = "VeryLazy", config = function()
 		require('Comment').setup() end },
 
-	{'mg979/vim-visual-multi', event = "VeryLazy"},
+	-- {'mg979/vim-visual-multi', event = "VeryLazy"},
 
 	-- {'tpope/vim-fugitive', event = "VeryLazy"},
 	-- {'tpope/vim-rhubarb', event = "VeryLazy"},
