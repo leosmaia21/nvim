@@ -13,7 +13,7 @@ lsp_zero.set_server_config({
   end,
 })
 
-lspconfig.clangd.setup {cmd = { "clangd", "--offset-encoding=utf-16", }}
+-- lspconfig.clangd.setup {cmd = { "clangd", "--offset-encoding=utf-16", }}
 
 lspconfig.pylsp.setup{
 	settings = { pylsp = { plugins = { pycodestyle =  { enabled = false }, pylint =  { enabled = false }, } } }
@@ -40,7 +40,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
-require('luasnip.loaders.from_vscode').lazy_load()
+-- require('luasnip.loaders.from_vscode').lazy_load()
 
 luasnip.config.set_config({
 	history = true,
@@ -51,7 +51,7 @@ luasnip.config.set_config({
 cmp.setup({
 	sources = {
 		{name = 'nvim_lsp'},
-		{name = 'luasnip' },
+		-- {name = 'luasnip' },
 		{name = 'buffer' },
 		{name = 'path' },
 	},

@@ -8,8 +8,8 @@ vim.g.tabNumber = 2
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 require("lazy").setup({
 	{'sainnhe/gruvbox-material', priority = 1000},
-	{'ThePrimeagen/harpoon'},
-	{'nvim-telescope/telescope.nvim', config = function()
+	{'ThePrimeagen/harpoon', event = "VeryLazy"},
+	{'nvim-telescope/telescope.nvim', event = "VeryLazy", config = function()
 		require('telescope').setup{defaults = {
 				layout_config = {prompt_position = "top"},
 				sorting_strategy = "ascending"},
@@ -18,28 +18,29 @@ require("lazy").setup({
 		end,
 		dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
 	},
-	{'nvim-lua/plenary.nvim'},
-	{'alexghergh/nvim-tmux-navigation', event = "VeryLazy", config = function()
-		require'nvim-tmux-navigation'.setup{} end },
+	{'nvim-lua/plenary.nvim', lazy = true},
+	-- {'alexghergh/nvim-tmux-navigation', event = "VeryLazy", config = function()
+	-- 	require'nvim-tmux-navigation'.setup{} end },
+
 	{'numToStr/Comment.nvim', event = "VeryLazy", config = function()
 		require('Comment').setup() end },
 
-	{'mg979/vim-visual-multi'},
+	{'mg979/vim-visual-multi', event = "VeryLazy"},
 
-	{'tpope/vim-fugitive', event = "VeryLazy"},
-	{'tpope/vim-rhubarb', event = "VeryLazy"},
-	{'kylechui/nvim-surround', version = "*", config = function() require("nvim-surround").setup() end },
+	-- {'tpope/vim-fugitive', event = "VeryLazy"},
+	-- {'tpope/vim-rhubarb', event = "VeryLazy"},
+	{'kylechui/nvim-surround', event = "VeryLazy", version = "*", config = function() require("nvim-surround").setup() end },
 
 	{'mbbill/undotree', event = "VeryLazy"},
 
-	{"mfussenegger/nvim-dap"},
-	{'theHamsta/nvim-dap-virtual-text'},
-	{"rcarriga/nvim-dap-ui"},
-	{'mfussenegger/nvim-dap-python'},
+	{"mfussenegger/nvim-dap", lazy=true},
+	{'theHamsta/nvim-dap-virtual-text', lazy=true},
+	{"rcarriga/nvim-dap-ui", lazy=true},
+	{'mfussenegger/nvim-dap-python', lazy=true},
 
 	{'nvim-lualine/lualine.nvim'},
 
-	{'chentoast/marks.nvim', config = function() require'marks'.setup{force_write_shada = true} end },
+	{'chentoast/marks.nvim', event = "VeryLazy", config = function() require'marks'.setup{force_write_shada = true} end },
 
 	{'lukas-reineke/indent-blankline.nvim',
 		main = 'ibl', config = function()
@@ -51,7 +52,7 @@ require("lazy").setup({
 
 	{"nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
 		require'nvim-treesitter.configs'.setup {
-			ensure_installed = {"vim", "lua", "c", "python" },
+			-- ensure_installed = {"vim", "lua", "c", "python" },
 			auto_install = true,
 			highlight = {enable = true, additional_vim_regex_highlighting = false},
 			indent = { enable = true },  
@@ -69,9 +70,13 @@ require("lazy").setup({
 		require('aerial').setup({ close_on_select = true, autojump = true })
 		require('telescope').load_extension('aerial')
 		end },
-	{'nvim-tree/nvim-web-devicons', lazy = true},
-	{'nvim-tree/nvim-tree.lua', config = function()
-		require("nvim-tree").setup{diagnostics = {enable=true, show_on_dirs=true}}
+
+	-- {'nvim-tree/nvim-web-devicons', lazy = true},
+
+	{'nvim-tree/nvim-tree.lua', event = "VeryLazy", config = function()
+		require("nvim-tree").setup{
+			git = {enable = false},
+			diagnostics = {enable=true, show_on_dirs=true}}
 		end
 	},
 
@@ -79,11 +84,9 @@ require("lazy").setup({
 		require("nvim-autopairs").setup({ignored_next_char = "[%w%.]", disable_filetype = {"TelescopePrompt"}})
 	end},
 
-	{'leosmaia21/gcompilecommands.nvim'},
-
-	{'github/copilot.vim'},
 
 	{'VonHeikemen/lsp-zero.nvim', branch = 'v3.x',
+		event = "VeryLazy",
 		dependencies = {
 			{'neovim/nvim-lspconfig'},
 			{'williamboman/mason.nvim'},
@@ -94,18 +97,16 @@ require("lazy").setup({
 			{'saadparwaiz1/cmp_luasnip'},
 			{'hrsh7th/cmp-path'},
 			{'hrsh7th/cmp-buffer'},
-			{'rafamadriz/friendly-snippets'},
-		}
+		}, 
+		config = function() 
+			require('lualsp')
+		end
 	},
 
-	{'42Paris/42header'},
-	{'vim-syntastic/syntastic', ft = 'c'},
-	{'alexandregv/norminette-vim', ft = 'c'},
 })
 
 require('keymap')
-require('debugger')
-require('lualsp')
+-- require('debugger')
 require('lualineconf')
 
 
@@ -132,7 +133,7 @@ vim.opt.ignorecase = true
 vim.opt.undofile = true
 vim.opt.foldlevel = 99
 vim.opt.foldenable = false
-vim.opt.mouse = ''
+vim.opt.mouse = 'a'
 vim.opt.signcolumn = 'yes'
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
@@ -171,16 +172,3 @@ vim.api.nvim_create_user_command('ClangFormart', function()
 	vim.cmd('silent! LspRestart')
 end ,{})
 
-vim.api.nvim_create_user_command('Norm', function()
-	vim.g.syntastic_c_checkers = {'norminette'}
-	vim.g.syntastic_aggregate_errors = 1
-	vim.g.syntastic_c_norminette_exec = 'norminette'
-	vim.g.c_syntax_for_h = 1
-	vim.g.syntastic_c_include_dirs = {'include', '../include', '../../include', 'libft', '../libft/include', '../../libft/include'}
-	vim.g.syntastic_c_norminette_args = '-R CheckTopCommentHeader'
-	vim.g.syntastic_check_on_open = 1
-	vim.g.syntastic_always_populate_loc_list = 1
-	vim.g.syntastic_auto_loc_list = 0
-	vim.g.syntastic_check_on_wq = 0
-	vim.cmd('write')
-end, {})
