@@ -29,7 +29,10 @@ require("lazy").setup({
 
 	-- {'tpope/vim-fugitive', event = "VeryLazy"},
 	-- {'tpope/vim-rhubarb', event = "VeryLazy"},
-	{'kylechui/nvim-surround', event = "VeryLazy", version = "*", config = function() require("nvim-surround").setup() end },
+	{'kylechui/nvim-surround', event = "VeryLazy", version = "*", config = function()
+		require("nvim-surround").setup() 
+	end 
+	},
 
 	{'mbbill/undotree', event = "VeryLazy"},
 
@@ -76,7 +79,8 @@ require("lazy").setup({
 	{'nvim-tree/nvim-tree.lua', event = "VeryLazy", config = function()
 		require("nvim-tree").setup{
 			git = {enable = false},
-			diagnostics = {enable=true, show_on_dirs=true}}
+			diagnostics = {enable=false}
+		}
 		end
 	},
 
@@ -115,9 +119,6 @@ vim.g.gruvbox_material_background = "hard"
 vim.g.gruvbox_material_foreground = 'original'
 vim.g.gruvbox_material_colors_override ={bg0 = {'#131919', '255'}, fg0 = {'#E1D6C3', '255'}}
 vim.cmd.colorscheme('gruvbox-material')
-
-vim.g.user42 = 'ledos-sa'
-vim.g.mail42 = 'ledos-sa@student.42.fr'
 
 vim.opt.termguicolors = true
 vim.opt.number = true
