@@ -11,11 +11,11 @@ require("lazy").setup({
 	{'ThePrimeagen/harpoon', event = "VeryLazy"},
 	{'nvim-telescope/telescope.nvim', event = "VeryLazy", config = function()
 		require('telescope').setup{defaults = {
-				layout_config = {prompt_position = "top"},
-				sorting_strategy = "ascending"},
+			layout_config = {prompt_position = "top"},
+			sorting_strategy = "ascending"},
 		}
 		require('telescope').load_extension('fzf')
-		end,
+	end,
 		dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
 	},
 	{'nvim-lua/plenary.nvim', lazy = true},
@@ -50,7 +50,7 @@ require("lazy").setup({
 			require"ibl".setup{
 				indent = {char = "│"},
 				scope = {enabled = false},
-			} end
+		} end
 	},
 
 	{"nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
@@ -67,12 +67,12 @@ require("lazy").setup({
 				},
 			},
 		}
-		end
+	end
 	},
 	{'stevearc/aerial.nvim', event = 'VeryLazy', config = function() 
 		require('aerial').setup({ close_on_select = true, autojump = true })
 		require('telescope').load_extension('aerial')
-		end },
+	end },
 
 	-- {'nvim-tree/nvim-web-devicons', lazy = true},
 
@@ -81,7 +81,7 @@ require("lazy").setup({
 			git = {enable = false},
 			diagnostics = {enable=false}
 		}
-		end
+	end
 	},
 
 	{'windwp/nvim-autopairs', event = "VeryLazy", config = function() 
