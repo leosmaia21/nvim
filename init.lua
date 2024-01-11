@@ -15,8 +15,11 @@ require("lazy").setup({
 			sorting_strategy = "ascending"},
 		}
 		require('telescope').load_extension('fzf')
+		require("telescope").load_extension "file_browser"
 	end,
-		dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'}
+		dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make',
+			"nvim-telescope/telescope-file-browser.nvim"
+
 	},
 	{'nvim-lua/plenary.nvim', lazy = true},
 	-- {'alexghergh/nvim-tmux-navigation', event = "VeryLazy", config = function()
@@ -104,12 +107,14 @@ require("lazy").setup({
 		}, 
 		config = function() 
 			require('lualsp')
+			require('keymap')
 		end
 	},
 
 })
 
-require('keymap')
+vim.api.nvim_set_keymap( "n", "<space>tt", ":Telescope file_browser<CR>", { noremap = true })
+
 -- require('debugger')
 require('lualineconf')
 
