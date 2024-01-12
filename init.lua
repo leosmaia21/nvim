@@ -17,13 +17,13 @@ require("lazy").setup({
 		require('telescope').load_extension('fzf')
 		require("telescope").load_extension "file_browser"
 	end,
-		dependencies = {'nvim-telescope/telescope-fzf-native.nvim', build = 'make',
+		dependencies = {{'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
 			"nvim-telescope/telescope-file-browser.nvim"
-
-	},
+	}},
 	{'nvim-lua/plenary.nvim', lazy = true},
-	-- {'alexghergh/nvim-tmux-navigation', event = "VeryLazy", config = function()
-	-- 	require'nvim-tmux-navigation'.setup{} end },
+
+	{'alexghergh/nvim-tmux-navigation', event = "VeryLazy", config = function()
+		require'nvim-tmux-navigation'.setup{} end },
 
 	{'numToStr/Comment.nvim', event = "VeryLazy", config = function()
 		require('Comment').setup() end },
@@ -92,10 +92,8 @@ require("lazy").setup({
 	end},
 
 
-	{'VonHeikemen/lsp-zero.nvim', branch = 'v3.x',
-		event = "VeryLazy",
-		dependencies = {
-			{'neovim/nvim-lspconfig'},
+		{'neovim/nvim-lspconfig',
+			dependencies = {
 			{'williamboman/mason.nvim'},
 			{'williamboman/mason-lspconfig.nvim'},
 			{'hrsh7th/nvim-cmp'},
@@ -103,20 +101,17 @@ require("lazy").setup({
 			{'L3MON4D3/LuaSnip'},
 			{'saadparwaiz1/cmp_luasnip'},
 			{'hrsh7th/cmp-path'},
-			{'hrsh7th/cmp-buffer'},
-		}, 
+			{'hrsh7th/cmp-buffer'}
+			},
 		config = function() 
 			require('lualsp')
-			require('keymap')
 		end
-	},
-
+		}
 })
-
-vim.api.nvim_set_keymap( "n", "<space>tt", ":Telescope file_browser<CR>", { noremap = true })
 
 -- require('debugger')
 require('lualineconf')
+require('keymap')
 
 
 vim.g.gruvbox_material_better_performance = 1

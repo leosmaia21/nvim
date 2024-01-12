@@ -1,29 +1,38 @@
-local lspconfig = require('lspconfig')
-local lsp_zero = require('lsp-zero')
+function format(opts)
+  opts = opts or {}
+  local maxwidth = opts.max_width or false
+  return {
+    fields = {'abbr', 'menu', 'kind'},
+    format = function(entry, item)
+      local n = entry.source.name
+      if n == 'nvim_lsp' then
+        item.menu = '[LSP]'
+      elseif n == 'nvim_lua'  then
+        item.menu = '[nvim]'
+      else
+        item.menu = string.format('[%s]', n)
+      end
 
-require('mason').setup()
-require("mason-lspconfig").setup {
-	ensure_installed = { "clangd", "pylsp"},
-	handlers = {lsp_zero.default_setup}
-}
+      if maxwidth and #item.abbr > maxwidth then
+        local last = item.kind == 'Snippet' and '~' or ''
+        item.abbr = string.format(
+          '%s %s',
+          string.sub(item.abbr, 1, maxwidth),
+          last
+        )
+      end
+      return item
+    end,
+  }
+end
 
-lsp_zero.set_server_config({
-  on_init = function(client)
-    client.server_capabilities.semanticTokensProvider = nil
-  end,
-})
 
--- lspconfig.clangd.setup {cmd = { "clangd", "--offset-encoding=utf-16", }}
-
-lspconfig.pylsp.setup{
-	settings = { pylsp = { plugins = { pycodestyle =  { enabled = false }, pylint =  { enabled = false }, } } }
-}
-
+-- vim.keymap.set('n', 'gd', '<C-]>', opts)
 vim.api.nvim_create_autocmd('LspAttach', {
-	group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-	callback = function(ev)
-		vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-		local opts = { buffer = ev.buf }
+  desc = 'LSP actions',
+  callback = function(event)
+		vim.lsp.get_client_by_id(event.data.client_id).server_capabilities.semanticTokensProvider = nil
+    local opts = {buffer = event.buf}
 		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
 		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
 		vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
@@ -32,21 +41,30 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
 		vim.keymap.set('n', 'gr',  require('telescope.builtin').lsp_references, opts)
 		vim.keymap.set('n', '<A-f>', function()
-			vim.lsp.buf.format {async = true }
-		end, opts)
-	end,
+			vim.lsp.buf.format {async = true } end, opts)
+  end
 })
 
+local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+local default_setup = function(server)
+  require('lspconfig')[server].setup({
+    capabilities = lsp_capabilities,
+  })
+end
+
+local lspconfig = require('lspconfig')
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = {},
+  handlers = { default_setup, },
+})
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
--- require('luasnip.loaders.from_vscode').lazy_load()
-
-luasnip.config.set_config({
-	history = true,
-	region_check_events = "InsertEnter",
-	delete_check_events = "TextChanged,InsertLeave",
-})
+-- lspconfig.svls.setup({
+--     capabilities = lsp_capabilities,
+-- })
 
 cmp.setup({
 	sources = {
@@ -82,5 +100,5 @@ cmp.setup({
 			end
 			end, { "i", "s"})
 	},
-	formatting = lsp_zero.cmp_format(),
+	formatting = format()
 })

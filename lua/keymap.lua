@@ -26,8 +26,8 @@ end
 vim.keymap.set('n', '<A-l>', 	 function() require("harpoon.ui").nav_next() end, opts)
 vim.keymap.set('n', '<A-h>', 	 function() require("harpoon.ui").nav_prev() end, opts)
 
-vim.keymap.set('n', '<C-Space>', '<C-w>w')
--- vim.keymap.set('n', "<C-Space>", require('nvim-tmux-navigation').NvimTmuxNavigateNext, opts)
+-- vim.keymap.set('n', '<C-Space>', '<C-w>w')
+vim.keymap.set('n', "<C-Space>", require('nvim-tmux-navigation').NvimTmuxNavigateNext, opts)
 vim.keymap.set('n', '<Up>', '<C-w>k', opts)
 vim.keymap.set('n', '<Right>', '<C-w>l', opts)
 vim.keymap.set('n', '<Left>', '<C-w>h', opts)
