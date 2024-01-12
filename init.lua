@@ -16,6 +16,7 @@ require("lazy").setup({
 		}
 		require('telescope').load_extension('fzf')
 		require("telescope").load_extension "file_browser"
+		require('keymap')
 	end,
 		dependencies = {{'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
 			"nvim-telescope/telescope-file-browser.nvim"
@@ -111,7 +112,6 @@ require("lazy").setup({
 
 -- require('debugger')
 require('lualineconf')
-require('keymap')
 
 
 vim.g.gruvbox_material_better_performance = 1
