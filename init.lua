@@ -8,14 +8,14 @@ vim.g.tabNumber = 2
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 require("lazy").setup({
 	{'sainnhe/gruvbox-material', priority = 1000},
-	{'ThePrimeagen/harpoon', event = "VeryLazy"},
+	{'ThePrimeagen/harpoon'},
 	{'nvim-telescope/telescope.nvim', event = "VeryLazy", config = function()
 		require('telescope').setup{defaults = {
 			layout_config = {prompt_position = "top"},
 			sorting_strategy = "ascending"},
 		}
 		require('telescope').load_extension('fzf')
-		require("telescope").load_extension "file_browser"
+		require("telescope").load_extension ('file_browser')
 		require('keymap')
 	end,
 		dependencies = {{'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
@@ -29,7 +29,7 @@ require("lazy").setup({
 	{'numToStr/Comment.nvim', event = "VeryLazy", config = function()
 		require('Comment').setup() end },
 
-	-- {'mg979/vim-visual-multi', event = "VeryLazy"},
+	{'mg979/vim-visual-multi', event = "VeryLazy"},
 
 	-- {'tpope/vim-fugitive', event = "VeryLazy"},
 	-- {'tpope/vim-rhubarb', event = "VeryLazy"},
@@ -73,16 +73,16 @@ require("lazy").setup({
 		}
 	end
 	},
-	{'stevearc/aerial.nvim', event = 'VeryLazy', config = function() 
-		require('aerial').setup({ close_on_select = true, autojump = true })
-		require('telescope').load_extension('aerial')
-	end },
+
+	-- {'stevearc/aerial.nvim', event = 'VeryLazy', config = function() 
+	-- 	require('aerial').setup({ close_on_select = true, autojump = true })
+	-- 	require('telescope').load_extension('aerial')
+	-- end },
 
 	-- {'nvim-tree/nvim-web-devicons', lazy = true},
 
 	{'nvim-tree/nvim-tree.lua', event = "VeryLazy", config = function()
 		require("nvim-tree").setup{
-			git = {enable = false},
 			diagnostics = {enable=false}
 		}
 	end
@@ -113,7 +113,8 @@ require("lazy").setup({
 -- require('debugger')
 require('lualineconf')
 
-
+vim.g.netrw_liststyle = 3
+-- vim.g.netrw_browse_split = 2
 vim.g.gruvbox_material_better_performance = 1
 vim.g.gruvbox_material_background = "hard"
 vim.g.gruvbox_material_foreground = 'original'
@@ -128,18 +129,17 @@ vim.opt.shiftwidth = vim.g.tabNumber
 vim.opt.cursorline = true
 vim.opt.linebreak = true
 vim.opt.swapfile = false
-vim.opt.scrolloff = 5
+vim.opt.scrolloff = 8
 vim.opt.smartindent = true
 vim.opt.ignorecase = true
 vim.opt.undofile = true
 vim.opt.foldlevel = 99
 vim.opt.foldenable = false
-vim.opt.mouse = 'a'
 vim.opt.signcolumn = 'yes'
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-
-vim.cmd("autocmd FileType python set shiftwidth="..vim.g.tabNumber.." tabstop="..vim.g.tabNumber)
+vim.opt.foldmethod = 'syntax'
+vim.opt.mouse = 'a'
+-- vim.opt.foldmethod = 'expr'
+-- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
 local save = vim.api.nvim_create_augroup("SavePositionWhenLeaving", {clear = true})
 vim.api.nvim_create_autocmd({"BufWrite"}, {
@@ -150,6 +150,7 @@ vim.api.nvim_create_autocmd({"BufWrite"}, {
 		end
 	end
 })
+
 vim.api.nvim_create_autocmd({"BufReadPost"}, {
 	group = save,
 	callback = function()
@@ -161,15 +162,15 @@ vim.api.nvim_create_autocmd({"BufReadPost"}, {
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup('yankcolor', {}),
-	command = ("silent! lua vim.highlight.on_yank {higroup='IncSearch', timeout=100}")
+	command = ("silent! lua vim.highlight.on_yank {higroup='IncSearch', timeout=70}")
 })
 
-vim.api.nvim_create_user_command('ClangFormart', function()
-	vim.cmd('silent! !echo "UseTab: Always" > .clang-format')
-	vim.cmd('silent! !echo "IndentWidth: "'..vim.g.tabNumber.. '>> .clang-format')
-	vim.cmd('silent! !echo "TabWidth: "'..vim.g.tabNumber.. '>> .clang-format')
-	vim.cmd('silent! !echo "ColumnLimit: 1000000" >> .clang-format')
-	vim.cmd('silent! !echo "AllowShortFunctionsOnASingleLine: Empty" >> .clang-format')
-	vim.cmd('silent! LspRestart')
-end ,{})
+-- vim.api.nvim_create_user_command('ClangFormart', function()
+-- 	vim.cmd('silent! !echo "UseTab: Always" > .clang-format')
+-- 	vim.cmd('silent! !echo "IndentWidth: "'..vim.g.tabNumber.. '>> .clang-format')
+-- 	vim.cmd('silent! !echo "TabWidth: "'..vim.g.tabNumber.. '>> .clang-format')
+-- 	vim.cmd('silent! !echo "ColumnLimit: 1000000" >> .clang-format')
+-- 	vim.cmd('silent! !echo "AllowShortFunctionsOnASingleLine: Empty" >> .clang-format')
+-- 	vim.cmd('silent! LspRestart')
+-- end ,{})
 
