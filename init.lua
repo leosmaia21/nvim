@@ -4,7 +4,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.tabNumber = 2
+vim.g.tabNumber = 4
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 require("lazy").setup({
 	{'sainnhe/gruvbox-material', priority = 1000},
@@ -12,13 +12,16 @@ require("lazy").setup({
 	{'nvim-telescope/telescope.nvim', event = "VeryLazy", config = function()
 		require('telescope').setup{defaults = {
 			layout_config = {prompt_position = "top"},
-			sorting_strategy = "ascending"},
+			sorting_strategy = "ascending"
+			}
 		}
+		-- require('telescope').load_extension('fzy_native')
 		require('telescope').load_extension('fzf')
 		require("telescope").load_extension ('file_browser')
 		require('keymap')
 	end,
 		dependencies = {{'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
+			{"nvim-telescope/telescope-fzy-native.nvim", build = 'make'},
 			"nvim-telescope/telescope-file-browser.nvim"
 	}},
 	{'nvim-lua/plenary.nvim', lazy = true},

@@ -4,6 +4,7 @@ vim.keymap.set('n', '<leader>ff', 	telescope.find_files, opts)
 vim.keymap.set('n', '<C-p>', 				telescope.find_files, opts)
 vim.keymap.set('n', '<leader>gf', 	telescope.git_files, opts)
 vim.keymap.set('n', '<leader>fb', 	telescope.buffers, opts)
+vim.keymap.set('n', '<C-b>', 				telescope.buffers, opts)
 vim.keymap.set('n', '<leader>d',  	telescope.diagnostics, opts)
 vim.keymap.set('n', '<leader>of', 	telescope.oldfiles, opts)
 vim.keymap.set('n', '<leader>q', 		telescope.quickfix, opts)
@@ -17,6 +18,8 @@ vim.keymap.set('n', '<leader>fg', function()
 end, opts)
 
 vim.api.nvim_create_user_command('Delmarks',function() vim.cmd("delm!") vim.cmd("wshada!") end, {})
+
+vim.cmd("cnoremap <expr> <CR> pumvisible() ? '<C-y>' : '<CR>'")
 
 vim.keymap.set('n', '<leader>a', function() require("harpoon.mark").add_file() end, opts)
 vim.keymap.set('n', '<leader>h', function() require("harpoon.ui").toggle_quick_menu()end,  opts)
@@ -40,7 +43,7 @@ vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, opts)
 vim.keymap.set('n', '<leader>s', "<cmd>Telescope aerial<CR>", opts)
 
 vim.keymap.set('n', '<leader>e', vim.cmd.NvimTreeToggle, opts)
-vim.keymap.set( "n", "<C-e>", ":Telescope file_browser path=%:p:h select_buffer=true<CR>", opts)
+vim.keymap.set( "n", "<C-e>", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>", opts)
 
 vim.keymap.set('n', '<leader><Tab>', '<C-6>', opts)
 
