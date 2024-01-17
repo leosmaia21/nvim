@@ -13,7 +13,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
 		vim.keymap.set('n', 'gr',  require('telescope.builtin').lsp_references, opts)
 		vim.keymap.set('n', '<A-f>', function()
-			vim.lsp.buf.format {async = true } end, opts)
+		vim.lsp.buf.format {async = true } end, opts)
+		-- vim.opt.tags = "tags"
 	end
 })
 
@@ -38,10 +39,7 @@ local luasnip = require('luasnip')
 --     capabilities = lsp_capabilities,
 -- })
 
-require('lspconfig').verible.setup{
-  cmd = {'verible-verilog-ls', '--rules_config_search'},
-}
-
+lspconfig.veridian.setup{}
 
 cmp.setup({
 	sources = {
