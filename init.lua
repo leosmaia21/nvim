@@ -4,7 +4,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.tabNumber = 4
+vim.g.tabNumber = 2
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 require("lazy").setup({
 	{'sainnhe/gruvbox-material', priority = 1000},
@@ -77,10 +77,10 @@ require("lazy").setup({
 	end
 	},
 
-	-- {'stevearc/aerial.nvim', event = 'VeryLazy', config = function() 
-	-- 	require('aerial').setup({ close_on_select = true, autojump = true })
-	-- 	require('telescope').load_extension('aerial')
-	-- end },
+	{'stevearc/aerial.nvim', event = 'VeryLazy', config = function() 
+		require('aerial').setup({ close_on_select = true, autojump = true })
+		require('telescope').load_extension('aerial')
+	end },
 
 	-- {'nvim-tree/nvim-web-devicons', lazy = true},
 
@@ -133,6 +133,7 @@ vim.opt.cursorline = true
 vim.opt.linebreak = true
 vim.opt.swapfile = false
 vim.opt.scrolloff = 8
+vim.opt.timeoutlen = 600
 vim.opt.smartindent = true
 vim.opt.ignorecase = true
 vim.opt.undofile = true

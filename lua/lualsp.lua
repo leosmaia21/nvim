@@ -1,38 +1,10 @@
-function format(opts)
-  opts = opts or {}
-  local maxwidth = opts.max_width or false
-  return {
-    fields = {'abbr', 'menu', 'kind'},
-    format = function(entry, item)
-      local n = entry.source.name
-      if n == 'nvim_lsp' then
-        item.menu = '[LSP]'
-      elseif n == 'nvim_lua'  then
-        item.menu = '[nvim]'
-      else
-        item.menu = string.format('[%s]', n)
-      end
-
-      if maxwidth and #item.abbr > maxwidth then
-        local last = item.kind == 'Snippet' and '~' or ''
-        item.abbr = string.format(
-          '%s %s',
-          string.sub(item.abbr, 1, maxwidth),
-          last
-        )
-      end
-      return item
-    end,
-  }
-end
-
 
 -- vim.keymap.set('n', 'gd', '<C-]>', opts)
 vim.api.nvim_create_autocmd('LspAttach', {
-  desc = 'LSP actions',
-  callback = function(event)
+	desc = 'LSP actions',
+	callback = function(event)
 		vim.lsp.get_client_by_id(event.data.client_id).server_capabilities.semanticTokensProvider = nil
-    local opts = {buffer = event.buf}
+		local opts = {buffer = event.buf}
 		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
 		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
 		vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
@@ -42,22 +14,22 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		vim.keymap.set('n', 'gr',  require('telescope.builtin').lsp_references, opts)
 		vim.keymap.set('n', '<A-f>', function()
 			vim.lsp.buf.format {async = true } end, opts)
-  end
+	end
 })
 
 local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local default_setup = function(server)
-  require('lspconfig')[server].setup({
-    capabilities = lsp_capabilities,
-  })
+	require('lspconfig')[server].setup({
+		capabilities = lsp_capabilities,
+	})
 end
 
 local lspconfig = require('lspconfig')
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = {},
-  handlers = { default_setup, },
+	ensure_installed = {},
+	handlers = { default_setup, },
 })
 local cmp = require('cmp')
 local luasnip = require('luasnip')
@@ -66,10 +38,15 @@ local luasnip = require('luasnip')
 --     capabilities = lsp_capabilities,
 -- })
 
+require('lspconfig').verible.setup{
+  cmd = {'verible-verilog-ls', '--rules_config_search'},
+}
+
+
 cmp.setup({
 	sources = {
 		{name = 'nvim_lsp'},
-		-- {name = 'luasnip' },
+		{name = 'luasnip' },
 		{name = 'buffer' },
 		{name = 'path' },
 	},
@@ -100,5 +77,46 @@ cmp.setup({
 			end
 			end, { "i", "s"})
 	},
-	formatting = format()
+	formatting = {
+		fields = {'abbr', 'menu', 'kind'},
+		format = function(entry, item)
+			local n = entry.source.name
+			if n == 'nvim_lsp' then
+				item.menu = '[LSP]'
+			elseif n == 'nvim_lua'  then
+				item.menu = '[nvim]'
+			else
+				item.menu = string.format('[%s]', n)
+			end
+			return item
+		end,
+	}
 })
+
+-- function format(opts)
+-- 	opts = opts or {}
+-- 	local maxwidth = opts.max_width or false
+-- 	return {
+-- 		fields = {'abbr', 'menu', 'kind'},
+-- 		format = function(entry, item)
+-- 			local n = entry.source.name
+-- 			if n == 'nvim_lsp' then
+-- 				item.menu = '[LSP]'
+-- 			elseif n == 'nvim_lua'  then
+-- 				item.menu = '[nvim]'
+-- 			else
+-- 				item.menu = string.format('[%s]', n)
+-- 			end
+-- 			if maxwidth and #item.abbr > maxwidth then
+-- 				local last = item.kind == 'Snippet' and '~' or ''
+-- 				item.abbr = string.format(
+-- 					'%s %s',
+-- 					string.sub(item.abbr, 1, maxwidth),
+-- 					last
+-- 				)
+-- 			end
+-- 			return item
+-- 		end,
+-- 	}
+-- end
+
