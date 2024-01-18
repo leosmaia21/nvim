@@ -15,7 +15,6 @@ require("lazy").setup({
 			sorting_strategy = "ascending"
 			}
 		}
-		-- require('telescope').load_extension('fzy_native')
 		require('telescope').load_extension('fzf')
 		require("telescope").load_extension ('file_browser')
 		require('keymap')
@@ -24,7 +23,8 @@ require("lazy").setup({
 			{"nvim-telescope/telescope-fzy-native.nvim", build = 'make'},
 			"nvim-telescope/telescope-file-browser.nvim"
 	}},
-	{'nvim-lua/plenary.nvim', lazy = true},
+
+	{'nvim-lua/plenary.nvim'},
 
 	{'alexghergh/nvim-tmux-navigation', event = "VeryLazy", config = function()
 		require'nvim-tmux-navigation'.setup{} end },
@@ -130,7 +130,8 @@ vim.opt.relativenumber = true
 vim.opt.tabstop = vim.g.tabNumber
 vim.opt.shiftwidth = vim.g.tabNumber
 vim.opt.cursorline = true
-vim.opt.linebreak = true
+vim.opt.linebreak = false
+vim.opt.wrap = false
 vim.opt.swapfile = false
 vim.opt.scrolloff = 8
 vim.opt.timeoutlen = 600
@@ -168,6 +169,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup('yankcolor', {}),
 	command = ("silent! lua vim.highlight.on_yank {higroup='IncSearch', timeout=70}")
 })
+
+vim.api.nvim_create_user_command('Ctags',function() vim.cmd("!ctags -R .") end,{})
 
 -- vim.api.nvim_create_user_command('ClangFormart', function()
 -- 	vim.cmd('silent! !echo "UseTab: Always" > .clang-format')
