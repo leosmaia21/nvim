@@ -44,9 +44,9 @@ lspconfig.veridian.setup{}
 cmp.setup({
 	sources = {
 		{name = 'nvim_lsp'},
-		{name = 'luasnip' },
 		{name = 'buffer' },
 		{name = 'path' },
+		{name = 'luasnip' },
 	},
 	snippet = {
 		expand = function(args)

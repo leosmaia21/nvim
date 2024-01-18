@@ -95,7 +95,6 @@ require("lazy").setup({
 		require("nvim-autopairs").setup({ignored_next_char = "[%w%.]", disable_filetype = {"TelescopePrompt"}})
 	end},
 
-
 		{'neovim/nvim-lspconfig',
 			dependencies = {
 			{'williamboman/mason.nvim'},

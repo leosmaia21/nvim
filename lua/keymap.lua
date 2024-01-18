@@ -25,12 +25,13 @@ vim.keymap.set('n', '<leader>a', function() require("harpoon.mark").add_file() e
 vim.keymap.set('n', '<leader>h', function() require("harpoon.ui").toggle_quick_menu()end,  opts)
 for i = 1, 9 do
 	vim.keymap.set('n', '<A-'..i..'>', function() require("harpoon.ui").nav_file(i) end, opts)
+	vim.keymap.set('n', '<leader>'..i, function() require("harpoon.ui").nav_file(i) end, opts)
 end 
 vim.keymap.set('n', '<A-l>', 	 function() require("harpoon.ui").nav_next() end, opts)
 vim.keymap.set('n', '<A-h>', 	 function() require("harpoon.ui").nav_prev() end, opts)
 
 -- vim.keymap.set('n', '<C-Space>', '<C-w>w')
-vim.keymap.set('n', "<C-Space>", require('nvim-tmux-navigation').NvimTmuxNavigateNext, opts)
+vim.keymap.set('n', '<C-Space>', require('nvim-tmux-navigation').NvimTmuxNavigateNext, opts)
 vim.keymap.set('n', '<Up>', '<C-w>k', opts)
 vim.keymap.set('n', '<Right>', '<C-w>l', opts)
 vim.keymap.set('n', '<Left>', '<C-w>h', opts)
@@ -41,15 +42,15 @@ vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, opts)
 vim.keymap.set('n', '<leader>s', "<cmd>Telescope aerial<CR>", opts)
 
 vim.keymap.set('n', '<leader>e', vim.cmd.NvimTreeToggle, opts)
-vim.keymap.set( "n", "<C-e>", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>", opts)
+vim.keymap.set( "n", '<C-e>', "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>", opts)
 
 vim.keymap.set('n', '<leader><Tab>', '<C-6>', opts)
 
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", opts)
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", opts)
 
-vim.keymap.set('v', "<S-Tab>", "<gv", opts)
-vim.keymap.set('v', "<Tab>", ">gv", opts)
+vim.keymap.set('v', '<S-Tab>', "<gv", opts)
+vim.keymap.set('v', '<Tab>', ">gv", opts)
 
 vim.keymap.set('n', '<C-d>', '<C-d>zz', opts)
 vim.keymap.set('n', '<C-u>', '<C-u>zz', opts)
@@ -85,4 +86,4 @@ vim.keymap.set({'n'}, '<Leader>lp', "<Cmd>lua require'dap'.set_breakpoint(nil, n
 vim.keymap.set({'n'}, '<Leader>k', "<Cmd>lua require('dap.ui.widgets').hover()<CR>", opts)
 
 -- verilog
-vim.keymap.set('i', 'll', "=>", opts)
+vim.keymap.set('i', 'll', '=>', opts)
