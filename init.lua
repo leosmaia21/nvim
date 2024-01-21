@@ -4,11 +4,12 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.tabNumber = 2
+vim.g.tabNumber = 4
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 require("lazy").setup({
 	{'sainnhe/gruvbox-material', priority = 1000},
 	{'ThePrimeagen/harpoon'},
+	-- { 'rose-pine/neovim', name = 'rose-pine' },
 	{'nvim-telescope/telescope.nvim', event = "VeryLazy", config = function()
 		require('telescope').setup{defaults = {
 			layout_config = {prompt_position = "top"},
@@ -20,7 +21,6 @@ require("lazy").setup({
 		require('keymap')
 	end,
 		dependencies = {{'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
-			{"nvim-telescope/telescope-fzy-native.nvim", build = 'make'},
 			"nvim-telescope/telescope-file-browser.nvim"
 	}},
 
@@ -37,22 +37,20 @@ require("lazy").setup({
 	-- {'tpope/vim-fugitive', event = "VeryLazy"},
 	-- {'tpope/vim-rhubarb', event = "VeryLazy"},
 	{'kylechui/nvim-surround', event = "VeryLazy", version = "*", config = function()
-		require("nvim-surround").setup() 
-	end 
-	},
+		require("nvim-surround").setup() end },
 
 	{'mbbill/undotree', event = "VeryLazy"},
 
-	{"mfussenegger/nvim-dap", lazy=true},
-	{'theHamsta/nvim-dap-virtual-text', lazy=true},
-	{"rcarriga/nvim-dap-ui", lazy=true},
-	{'mfussenegger/nvim-dap-python', lazy=true},
+	{"mfussenegger/nvim-dap"},
+	{'theHamsta/nvim-dap-virtual-text'},
+	{"rcarriga/nvim-dap-ui"},
+	{'mfussenegger/nvim-dap-python'},
 
 	{'nvim-lualine/lualine.nvim'},
 
 	{'chentoast/marks.nvim', event = "VeryLazy", config = function() require'marks'.setup{force_write_shada = true} end },
 
-	{'lukas-reineke/indent-blankline.nvim',
+	{'lukas-reineke/indent-blankline.nvim', event = "VeryLazy",
 		main = 'ibl', config = function()
 			require"ibl".setup{
 				indent = {char = "│"},
@@ -65,7 +63,7 @@ require("lazy").setup({
 			-- ensure_installed = {"vim", "lua", "c", "python" },
 			auto_install = true,
 			highlight = {enable = true, additional_vim_regex_highlighting = false},
-			indent = { enable = true },  
+			-- indent = { enable = true },  
 			incremental_selection = {
 				enable = true,
 				keymaps = {
@@ -112,14 +110,15 @@ require("lazy").setup({
 		}
 })
 
--- require('debugger')
+require('debugger')
 require('lualineconf')
 
 vim.g.netrw_liststyle = 3
--- vim.g.netrw_browse_split = 2
+vim.g.netrw_browse_split = 0
+vim.g.netrw_winsize = 25
 vim.g.gruvbox_material_better_performance = 1
 vim.g.gruvbox_material_background = "hard"
-vim.g.gruvbox_material_foreground = 'original'
+vim.g.gruvbox_material_foreground = 'mix'
 vim.g.gruvbox_material_colors_override ={bg0 = {'#131919', '255'}, fg0 = {'#E1D6C3', '255'}}
 vim.cmd.colorscheme('gruvbox-material')
 

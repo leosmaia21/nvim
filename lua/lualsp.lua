@@ -14,9 +14,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		vim.keymap.set('n', 'gr',  require('telescope.builtin').lsp_references, opts)
 		vim.keymap.set('n', '<A-f>', function()
 		vim.lsp.buf.format {async = true } end, opts)
-		-- vim.opt.tags = "tags"
+		vim.opt.tagfunc=""
 	end
 })
+vim.opt.tagfunc=""
 
 local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -30,16 +31,12 @@ local lspconfig = require('lspconfig')
 require('mason').setup({})
 require('mason-lspconfig').setup({
 	ensure_installed = {'verible'},
-	handlers = { default_setup, },
+	handlers = { default_setup},
 })
+lspconfig.veridian.setup{capabilities = lsp_capabilities}
+
 local cmp = require('cmp')
 local luasnip = require('luasnip')
-
--- lspconfig.svls.setup({
---     capabilities = lsp_capabilities,
--- })
-
-lspconfig.veridian.setup{}
 
 cmp.setup({
 	sources = {

@@ -41,8 +41,10 @@ vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, opts)
 
 vim.keymap.set('n', '<leader>s', "<cmd>Telescope aerial<CR>", opts)
 
+vim.keymap.set('n', '<CR>', 'ciw', opts)
+
 vim.keymap.set('n', '<leader>e', vim.cmd.NvimTreeToggle, opts)
-vim.keymap.set( "n", '<C-e>', "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>", opts)
+vim.keymap.set('n', '<C-e>', "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>", opts)
 
 vim.keymap.set('n', '<leader><Tab>', '<C-6>', opts)
 
@@ -84,6 +86,3 @@ vim.keymap.set({'n'}, '<Leader>b', "<Cmd>lua require'dap'.toggle_breakpoint()<CR
 vim.keymap.set({'n'}, '<Leader>B', "<Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opts)
 vim.keymap.set({'n'}, '<Leader>lp', "<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opts)
 vim.keymap.set({'n'}, '<Leader>k', "<Cmd>lua require('dap.ui.widgets').hover()<CR>", opts)
-
--- verilog
-vim.keymap.set('i', 'll', '=>', opts)
