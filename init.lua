@@ -93,21 +93,25 @@ require("lazy").setup({
 		require("nvim-autopairs").setup({ignored_next_char = "[%w%.]", disable_filetype = {"TelescopePrompt"}})
 	end},
 
-		{'neovim/nvim-lspconfig',
-			dependencies = {
-			{'williamboman/mason.nvim'},
-			{'williamboman/mason-lspconfig.nvim'},
-			{'hrsh7th/nvim-cmp'},
-			{'hrsh7th/cmp-nvim-lsp'},
-			{'L3MON4D3/LuaSnip'},
-			{'saadparwaiz1/cmp_luasnip'},
-			{'hrsh7th/cmp-path'},
-			{'hrsh7th/cmp-buffer'}
-			},
-		config = function() 
-			require('lualsp')
-		end
-		}
+	{'neovim/nvim-lspconfig',
+		dependencies = {
+		{'williamboman/mason.nvim'},
+		{'williamboman/mason-lspconfig.nvim'},
+		{'hrsh7th/nvim-cmp'},
+		{'hrsh7th/cmp-nvim-lsp'},
+		{'L3MON4D3/LuaSnip'},
+		{'saadparwaiz1/cmp_luasnip'},
+		{'hrsh7th/cmp-path'},
+		{'hrsh7th/cmp-buffer'}
+		},
+	config = function() 
+		require('lualsp')
+	end
+	},
+
+	{'42Paris/42header'},
+	{'vim-syntastic/syntastic', ft = 'c'},
+	{'alexandregv/norminette-vim', ft = 'c'},
 })
 
 require('debugger')
@@ -179,4 +183,5 @@ vim.api.nvim_create_user_command('Ctags',function() vim.cmd("!ctags -R .") end,{
 -- 	vim.cmd('silent! !echo "AllowShortFunctionsOnASingleLine: Empty" >> .clang-format')
 -- 	vim.cmd('silent! LspRestart')
 -- end ,{})
+
 
