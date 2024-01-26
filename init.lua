@@ -8,8 +8,9 @@ vim.g.tabNumber = 4
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 require("lazy").setup({
 	{'sainnhe/gruvbox-material', priority = 1000},
+	{ "EdenEast/nightfox.nvim" },
+	{ 'rose-pine/neovim', name = 'rose-pine' },
 	{'ThePrimeagen/harpoon'},
-	-- { 'rose-pine/neovim', name = 'rose-pine' },
 	{'nvim-telescope/telescope.nvim', event = "VeryLazy", config = function()
 		require('telescope').setup{defaults = {
 			layout_config = {prompt_position = "top"},
@@ -63,7 +64,7 @@ require("lazy").setup({
 			-- ensure_installed = {"vim", "lua", "c", "python" },
 			auto_install = true,
 			highlight = {enable = true, additional_vim_regex_highlighting = false},
-			-- indent = { enable = true },  
+			indent = { enable = true },
 			incremental_selection = {
 				enable = true,
 				keymaps = {
@@ -75,7 +76,7 @@ require("lazy").setup({
 	end
 	},
 
-	{'stevearc/aerial.nvim', event = 'VeryLazy', config = function() 
+	{'stevearc/aerial.nvim', event = 'VeryLazy', config = function()
 		require('aerial').setup({ close_on_select = true, autojump = true })
 		require('telescope').load_extension('aerial')
 	end },
@@ -89,7 +90,7 @@ require("lazy").setup({
 	end
 	},
 
-	{'windwp/nvim-autopairs', event = "VeryLazy", config = function() 
+	{'windwp/nvim-autopairs', event = "VeryLazy", config = function()
 		require("nvim-autopairs").setup({ignored_next_char = "[%w%.]", disable_filetype = {"TelescopePrompt"}})
 	end},
 
@@ -104,7 +105,7 @@ require("lazy").setup({
 		{'hrsh7th/cmp-path'},
 		{'hrsh7th/cmp-buffer'}
 		},
-	config = function() 
+	config = function()
 		require('lualsp')
 	end
 	},
@@ -114,10 +115,7 @@ require("lazy").setup({
 	{'alexandregv/norminette-vim', ft = 'c'},
 })
 
-require('debugger')
-require('lualineconf')
 
-vim.g.c_syntax_for_h = 1
 vim.g.netrw_liststyle = 3
 vim.g.netrw_browse_split = 0
 vim.g.netrw_winsize = 25
@@ -125,7 +123,31 @@ vim.g.gruvbox_material_better_performance = 1
 vim.g.gruvbox_material_background = "hard"
 vim.g.gruvbox_material_foreground = 'mix'
 vim.g.gruvbox_material_colors_override ={bg0 = {'#131919', '255'}, fg0 = {'#E1D6C3', '255'}}
-vim.cmd.colorscheme('gruvbox-material')
+-- vim.cmd.colorscheme('gruvbox-material')
+require('rose-pine').setup({
+    styles = {
+        bold = false,
+        italic = false,
+    },})
+vim.cmd.colorscheme('rose-pine')
+
+require('debugger')
+require('lualineconf')
+
+vim.o.updatetime = 250
+-- vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+--   group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
+--   callback = function ()
+--     vim.diagnostic.open_float(nil, {focus=false})
+--   end
+-- })
+
+vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+  group = vim.api.nvim_create_augroup("float_diagnostic_cursor", { clear = true }),
+  callback = function ()
+    vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})
+  end
+})
 
 vim.opt.termguicolors = true
 vim.opt.number = true
@@ -144,36 +166,47 @@ vim.opt.undofile = true
 vim.opt.foldlevel = 99
 vim.opt.foldenable = false
 vim.opt.signcolumn = 'yes'
-vim.opt.foldmethod = 'syntax'
+vim.opt.foldmethod = 'indent'
 vim.opt.mouse = 'a'
 -- vim.opt.foldmethod = 'expr'
 -- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
 local save = vim.api.nvim_create_augroup("SavePositionWhenLeaving", {clear = true})
-vim.api.nvim_create_autocmd({"BufWrite"}, {
+vim.api.nvim_create_autocmd({"BufWritePost"}, {
 	group = save,
-	callback = function()
-		if  vim.api.nvim_buf_get_option(0, 'buftype') == '' then
-			vim.cmd("silent! mkview")
-		end
-	end
+	command = "silent! mkview"
 })
-
 vim.api.nvim_create_autocmd({"BufReadPost"}, {
 	group = save,
-	callback = function()
-		if  vim.api.nvim_buf_get_option(0, 'buftype') == '' then
-			vim.cmd("silent! loadview")
-		end
-	end
+	command = "silent! loadview"
 })
 
+-- vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+-- 	group = vim.api.nvim_create_augroup('cursorposition', {}),
+-- 	callback = function()
+-- 		local last_edit_line = vim.fn.line("'\"")
+-- 		local buftype = vim.api.nvim_buf_get_option(0, 'buftype')
+-- 		if buftype == '' and last_edit_line > 0 and last_edit_line <= vim.fn.line("$") then
+-- 			vim.api.nvim_feedkeys('g`"', 'n', true)
+-- 		end
+-- 	end,
+-- })
+
 vim.api.nvim_create_autocmd("TextYankPost", {
-	group = vim.api.nvim_create_augroup('yankcolor', {}),
+	group = vim.api.nvim_create_augroup('yankcolor', {clear = true}),
 	command = ("silent! lua vim.highlight.on_yank {higroup='IncSearch', timeout=70}")
 })
 
-vim.api.nvim_create_user_command('Ctags',function() vim.cmd("!ctags -R .") end,{})
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+    callback = function()
+      local save_cursor = vim.fn.getpos(".")
+      vim.cmd [[%s/\s\+$//e]]
+      vim.fn.setpos(".", save_cursor)
+    end,
+})
+
+vim.api.nvim_create_user_command('Deleteview',function() vim.cmd("!rm ~/.local/state/nvim/view/*") end,{})
+vim.api.nvim_create_user_command('Ctags',function() vim.cmd("!ctags -R .") end, {})
 
 -- vim.api.nvim_create_user_command('ClangFormart', function()
 -- 	vim.cmd('silent! !echo "UseTab: Always" > .clang-format')
@@ -184,4 +217,6 @@ vim.api.nvim_create_user_command('Ctags',function() vim.cmd("!ctags -R .") end,{
 -- 	vim.cmd('silent! LspRestart')
 -- end ,{})
 
-
+if vim.loader then
+	vim.loader.enable()
+end

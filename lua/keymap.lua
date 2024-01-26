@@ -1,17 +1,16 @@
 local opts = { noremap = true, silent = true }
 local telescope = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', 	telescope.find_files, opts)
-vim.keymap.set('n', '<C-p>', 				telescope.find_files, opts)
-vim.keymap.set('n', '<leader>gf', 	telescope.git_files, opts)
-vim.keymap.set('n', '<leader>fb', 	telescope.buffers, opts)
-vim.keymap.set('n', '<C-b>', 				telescope.buffers, opts)
+vim.keymap.set('n', '<leader>f', 	telescope.find_files, opts)
+vim.keymap.set('n', '<C-p>', 		telescope.find_files, opts)
+-- vim.keymap.set('n', '<leader>gf', 	telescope.git_files, opts)
+vim.keymap.set('n', '<C-b>', 		telescope.buffers, opts)
 vim.keymap.set('n', '<leader>d',  	telescope.diagnostics, opts)
-vim.keymap.set('n', '<leader>of', 	telescope.oldfiles, opts)
-vim.keymap.set('n', '<leader>q', 		telescope.quickfix, opts)
+vim.keymap.set('n', '<leader>o', 	telescope.oldfiles, opts)
+vim.keymap.set('n', '<leader>q', 	telescope.quickfix, opts)
 vim.keymap.set('n', '<leader>m',  	telescope.marks, opts)
-vim.keymap.set('n', '<leader>fg', function()
+vim.keymap.set('n', '<leader>g', function()
 	local str = vim.fn.input("Grep> ")
-	if str ~= '' then 
+	if str ~= '' then
 		vim.cmd("silent! grep -rIi " .. str .. " * ")
 		telescope.quickfix()
 	end
@@ -26,7 +25,7 @@ vim.keymap.set('n', '<leader>h', function() require("harpoon.ui").toggle_quick_m
 for i = 1, 9 do
 	vim.keymap.set('n', '<A-'..i..'>', function() require("harpoon.ui").nav_file(i) end, opts)
 	vim.keymap.set('n', '<leader>'..i, function() require("harpoon.ui").nav_file(i) end, opts)
-end 
+end
 vim.keymap.set('n', '<A-l>', 	 function() require("harpoon.ui").nav_next() end, opts)
 vim.keymap.set('n', '<A-h>', 	 function() require("harpoon.ui").nav_prev() end, opts)
 

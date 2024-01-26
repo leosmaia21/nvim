@@ -27,7 +27,7 @@ return ''
 end
 
 local harpoon = require("harpoon")
-local function harpoonFiles() 
+local function harpoonFiles()
 	if vim.api.nvim_buf_get_option(0, 'buftype') ~= '' then return '' end
 	local tabela = harpoon.get_mark_config()['marks']
 	local currentFile = vim.fn.split(vim.api.nvim_buf_get_name(0), "/")
@@ -48,8 +48,10 @@ require("lualine").setup{
 		component_separators = "|",
 		section_separators = "",
 		refresh = {statusline = 300},
+		theme = vim.g.colors_name == 'rose-pine' and 'nord' or 'auto'
 	},
-	sections = { 
+
+	sections = {
 		lualine_a = {filename, unsavedFiles, 'branch'},
 		lualine_b = {{ 'diagnostics', sources = { 'nvim_lsp' }},harpoonFiles},
 		lualine_c = {},
