@@ -8,8 +8,8 @@ vim.g.tabNumber = 4
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 require("lazy").setup({
 	{'sainnhe/gruvbox-material', priority = 1000},
-	{ "EdenEast/nightfox.nvim" },
-	{ 'rose-pine/neovim', name = 'rose-pine' },
+	{'shaunsingh/nord.nvim'},
+	{ 'rose-pine/neovim', name = 'rose-pine'},
 	{'ThePrimeagen/harpoon'},
 	{'nvim-telescope/telescope.nvim', event = "VeryLazy", config = function()
 		require('telescope').setup{defaults = {
@@ -18,11 +18,9 @@ require("lazy").setup({
 			}
 		}
 		require('telescope').load_extension('fzf')
-		require("telescope").load_extension ('file_browser')
 		require('keymap')
 	end,
 		dependencies = {{'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
-			"nvim-telescope/telescope-file-browser.nvim"
 	}},
 
 	{'nvim-lua/plenary.nvim'},
@@ -67,28 +65,42 @@ require("lazy").setup({
 			indent = { enable = true },
 			incremental_selection = {
 				enable = true,
-				keymaps = {
-					init_selection = "<c-a>",
-					node_incremental = "<c-a>",
-				},
+				keymaps = {init_selection = "<c-a>", node_incremental = "<c-a>"},
 			},
 		}
 	end
 	},
 
-	{'stevearc/aerial.nvim', event = 'VeryLazy', config = function()
-		require('aerial').setup({ close_on_select = true, autojump = true })
-		require('telescope').load_extension('aerial')
-	end },
+	-- {'stevearc/aerial.nvim', event = 'VeryLazy', config = function()
+	-- 	require('aerial').setup({ close_on_select = true, autojump = true })
+	-- 	require('telescope').load_extension('aerial')
+	-- end },
 
-	-- {'nvim-tree/nvim-web-devicons', lazy = true},
+	{'nvim-tree/nvim-web-devicons', event = "VeryLazy"},
 
-	{'nvim-tree/nvim-tree.lua', event = "VeryLazy", config = function()
-		require("nvim-tree").setup{
-			diagnostics = {enable=false}
-		}
-	end
-	},
+	-- {'nvim-tree/nvim-tree.lua', event = "VeryLazy", config = function()
+	-- 	require("nvim-tree").setup{
+	-- 		diagnostics = {enable=false}
+	-- 	}
+	-- end
+	-- },
+
+	{'stevearc/oil.nvim', config = function()
+		require("oil").setup({
+			skip_confirm_for_simple_edits = true,
+			keymaps = {
+				["<C-v>"] = "actions.select_vsplit",
+				["<C-x>"] = "actions.select_split",
+				["<BS>"] = "actions.parent",
+			},
+			view_options = {
+				is_hidden_file = function(name, bufnr)
+					if name == ".." then return false end
+					return  vim.startswith(name, ".")
+				end,
+			}
+		})
+	end},
 
 	{'windwp/nvim-autopairs', event = "VeryLazy", config = function()
 		require("nvim-autopairs").setup({ignored_next_char = "[%w%.]", disable_filetype = {"TelescopePrompt"}})
@@ -115,7 +127,6 @@ require("lazy").setup({
 	{'alexandregv/norminette-vim', ft = 'c'},
 })
 
-
 vim.g.netrw_liststyle = 3
 vim.g.netrw_browse_split = 0
 vim.g.netrw_winsize = 25
@@ -127,21 +138,24 @@ vim.g.gruvbox_material_colors_override ={bg0 = {'#131919', '255'}, fg0 = {'#E1D6
 require('rose-pine').setup({
     styles = {
         bold = false,
-        italic = false,
-    },})
+        italic = true,
+	},
+})
 vim.cmd.colorscheme('rose-pine')
+
+vim.g.nord_contrast = true
+vim.g.nord_borders = true
+vim.g.nord_disable_background = false
+vim.g.nord_italic = false
+vim.g.nord_uniform_diff_background = true
+vim.g.nord_bold = false
+-- vim.cmd.colorscheme('nord')
+
 
 require('debugger')
 require('lualineconf')
 
 vim.o.updatetime = 250
--- vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
---   group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
---   callback = function ()
---     vim.diagnostic.open_float(nil, {focus=false})
---   end
--- })
-
 vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
   group = vim.api.nvim_create_augroup("float_diagnostic_cursor", { clear = true }),
   callback = function ()
@@ -180,17 +194,6 @@ vim.api.nvim_create_autocmd({"BufReadPost"}, {
 	group = save,
 	command = "silent! loadview"
 })
-
--- vim.api.nvim_create_autocmd({ "BufReadPost" }, {
--- 	group = vim.api.nvim_create_augroup('cursorposition', {}),
--- 	callback = function()
--- 		local last_edit_line = vim.fn.line("'\"")
--- 		local buftype = vim.api.nvim_buf_get_option(0, 'buftype')
--- 		if buftype == '' and last_edit_line > 0 and last_edit_line <= vim.fn.line("$") then
--- 			vim.api.nvim_feedkeys('g`"', 'n', true)
--- 		end
--- 	end,
--- })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup('yankcolor', {clear = true}),

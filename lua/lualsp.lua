@@ -17,7 +17,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		vim.opt.tagfunc=""
 	end
 })
-
 local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local default_setup = function(server)
@@ -42,7 +41,7 @@ cmp.setup({
 		{name = 'nvim_lsp'},
 		{name = 'buffer' },
 		{name = 'path' },
-		{name = 'luasnip' },
+		-- {name = 'luasnip' },
 	},
 	snippet = {
 		expand = function(args)
@@ -86,31 +85,3 @@ cmp.setup({
 		end,
 	}
 })
-
--- function format(opts)
--- 	opts = opts or {}
--- 	local maxwidth = opts.max_width or false
--- 	return {
--- 		fields = {'abbr', 'menu', 'kind'},
--- 		format = function(entry, item)
--- 			local n = entry.source.name
--- 			if n == 'nvim_lsp' then
--- 				item.menu = '[LSP]'
--- 			elseif n == 'nvim_lua'  then
--- 				item.menu = '[nvim]'
--- 			else
--- 				item.menu = string.format('[%s]', n)
--- 			end
--- 			if maxwidth and #item.abbr > maxwidth then
--- 				local last = item.kind == 'Snippet' and '~' or ''
--- 				item.abbr = string.format(
--- 					'%s %s',
--- 					string.sub(item.abbr, 1, maxwidth),
--- 					last
--- 				)
--- 			end
--- 			return item
--- 		end,
--- 	}
--- end
-
