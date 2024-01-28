@@ -8,9 +8,8 @@ require("nvim-dap-virtual-text").setup {
 	all_references = true,                -- show virtual text on all all references of the variable (not only definitions)
 	all_frames = true,                    -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
 }
-
-local dap = require("dap")
 local dapui = require("dapui")
+local dap = require("dap")
 
 dapui.setup()
 
@@ -42,7 +41,7 @@ function startDebugger()
 	end
 	if vim.fn.input('Continue to debugger?(y/n): ', 'y') == 'y' then
 		return 1
-	end 
+	end
 	return 0
 end
 
@@ -59,7 +58,7 @@ vim.keymap.set('n', '<A-d>', function()
 		print("Compile error!")
 		return
 	end
-	if startDebugger() == 1 then 
+	if startDebugger() == 1 then
 		alreadySetup = true
 		dap.continue()
 	end

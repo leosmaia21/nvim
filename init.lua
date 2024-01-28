@@ -7,9 +7,8 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.tabNumber = 4
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 require("lazy").setup({
-	{'sainnhe/gruvbox-material', priority = 1000},
-	{'shaunsingh/nord.nvim'},
-	{ 'rose-pine/neovim', name = 'rose-pine'},
+	-- {'sainnhe/gruvbox-material', priority = 1000},
+	{'rose-pine/neovim', name = 'rose-pine'},
 	{'ThePrimeagen/harpoon'},
 	{'nvim-telescope/telescope.nvim', event = "VeryLazy", config = function()
 		require('telescope').setup{defaults = {
@@ -33,17 +32,17 @@ require("lazy").setup({
 
 	{'mg979/vim-visual-multi', event = "VeryLazy"},
 
-	-- {'tpope/vim-fugitive', event = "VeryLazy"},
+	{'tpope/vim-fugitive', event = "VeryLazy"},
 	-- {'tpope/vim-rhubarb', event = "VeryLazy"},
 	{'kylechui/nvim-surround', event = "VeryLazy", version = "*", config = function()
 		require("nvim-surround").setup() end },
 
 	{'mbbill/undotree', event = "VeryLazy"},
 
-	{"mfussenegger/nvim-dap"},
-	{'theHamsta/nvim-dap-virtual-text'},
-	{"rcarriga/nvim-dap-ui"},
-	{'mfussenegger/nvim-dap-python'},
+	{"mfussenegger/nvim-dap", lazy = true},
+	{'theHamsta/nvim-dap-virtual-text', lazy = true},
+	{"rcarriga/nvim-dap-ui", lazy = true},
+	{'mfussenegger/nvim-dap-python', lazy = true},
 
 	{'nvim-lualine/lualine.nvim'},
 
@@ -122,35 +121,26 @@ require("lazy").setup({
 	end
 	},
 
-	{'42Paris/42header'},
+	{'42Paris/42header', ft = 'c'},
 	{'vim-syntastic/syntastic', ft = 'c'},
 	{'alexandregv/norminette-vim', ft = 'c'},
 })
 
-vim.g.netrw_liststyle = 3
-vim.g.netrw_browse_split = 0
-vim.g.netrw_winsize = 25
-vim.g.gruvbox_material_better_performance = 1
-vim.g.gruvbox_material_background = "hard"
-vim.g.gruvbox_material_foreground = 'mix'
-vim.g.gruvbox_material_colors_override ={bg0 = {'#131919', '255'}, fg0 = {'#E1D6C3', '255'}}
+-- vim.g.netrw_liststyle = 3
+-- vim.g.netrw_browse_split = 0
+-- vim.g.netrw_winsize = 25
+-- vim.g.gruvbox_material_better_performance = 1
+-- vim.g.gruvbox_material_background = "hard"
+-- vim.g.gruvbox_material_foreground = 'mix'
+-- vim.g.gruvbox_material_colors_override ={bg0 = {'#131919', '255'}, fg0 = {'#E1D6C3', '255'}}
 -- vim.cmd.colorscheme('gruvbox-material')
 require('rose-pine').setup({
     styles = {
         bold = false,
-        italic = true,
+        italic = false,
 	},
 })
 vim.cmd.colorscheme('rose-pine')
-
-vim.g.nord_contrast = true
-vim.g.nord_borders = true
-vim.g.nord_disable_background = false
-vim.g.nord_italic = false
-vim.g.nord_uniform_diff_background = true
-vim.g.nord_bold = false
--- vim.cmd.colorscheme('nord')
-
 
 require('debugger')
 require('lualineconf')
