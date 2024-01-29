@@ -39,7 +39,7 @@ require("lazy").setup({
 
 	{'mbbill/undotree', event = "VeryLazy"},
 
-	{"mfussenegger/nvim-dap", lazy = true},
+	{'mfussenegger/nvim-dap', lazy = true},
 	{'theHamsta/nvim-dap-virtual-text', lazy = true},
 	{"rcarriga/nvim-dap-ui", lazy = true},
 	{'mfussenegger/nvim-dap-python', lazy = true},
@@ -56,7 +56,7 @@ require("lazy").setup({
 		} end
 	},
 
-	{"nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
+	{'nvim-treesitter/nvim-treesitter', build = ":TSUpdate", config = function()
 		require'nvim-treesitter.configs'.setup {
 			-- ensure_installed = {"vim", "lua", "c", "python" },
 			auto_install = true,
@@ -145,10 +145,10 @@ require('debugger')
 require('lualineconf')
 
 vim.o.updatetime = 250
-vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-  group = vim.api.nvim_create_augroup("float_diagnostic_cursor", { clear = true }),
+vim.api.nvim_create_autocmd({'CursorHold', 'CursorHoldI' }, {
+  group = vim.api.nvim_create_augroup('float_diagnostic_cursor', { clear = true }),
   callback = function ()
-    vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})
+    vim.diagnostic.open_float(nil, {focus=false, scope='cursor'})
   end
 })
 
@@ -174,8 +174,8 @@ vim.opt.mouse = 'a'
 -- vim.opt.foldmethod = 'expr'
 -- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
-local save = vim.api.nvim_create_augroup("SavePositionWhenLeaving", {clear = true})
-vim.api.nvim_create_autocmd({"BufWritePost"}, {
+local save = vim.api.nvim_create_augroup('SavePositionWhenLeaving', {clear = true})
+vim.api.nvim_create_autocmd({'BufWritePost'}, {
 	group = save,
 	command = "silent! mkview"
 })
@@ -184,12 +184,12 @@ vim.api.nvim_create_autocmd({"BufReadPost"}, {
 	command = "silent! loadview"
 })
 
-vim.api.nvim_create_autocmd("TextYankPost", {
+vim.api.nvim_create_autocmd('TextYankPost', {
 	group = vim.api.nvim_create_augroup('yankcolor', {clear = true}),
 	command = ("silent! lua vim.highlight.on_yank {higroup='IncSearch', timeout=70}")
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+vim.api.nvim_create_autocmd('BufWritePre', {
     callback = function()
       local save_cursor = vim.fn.getpos(".")
       vim.cmd [[%s/\s\+$//e]]
