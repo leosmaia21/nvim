@@ -43,7 +43,6 @@ vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, opts)
 vim.keymap.set('n', '<CR>', 'ciw', opts)
 
 vim.keymap.set('n', '<leader>e', vim.cmd.Oil, opts)
-vim.keymap.set('n', '<C-e>', "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>", opts)
 
 vim.keymap.set('n', '<leader><Tab>', '<C-6>', opts)
 

@@ -4,12 +4,10 @@ local function filename()
 	if vim.api.nvim_buf_get_option(0, 'buftype') ~= '' then return currentFile end
 	local lenSize = string.len(currentFile)
 	if (lenSize > maxSizeFile) then maxSizeFile = lenSize end
-	if maxSizeFile % 2 == 0 then maxSizeFile = maxSizeFile + 1 end
-	local padding = math.floor((maxSizeFile - lenSize) / 2)
-	if lenSize % 2 == 0 then currentFile = currentFile .. " " end
-	local padding = string.rep(" ", padding)
-	if lenSize > 12 then maxSizeFile = 12 end
-	return padding .. currentFile .. padding
+	local padding = string.rep(" ", (maxSizeFile - lenSize) / 2)
+	local ret = padding .. currentFile .. padding
+	if lenSize > 13 then maxSizeFile = 13 end
+	return  string.len(ret) % 2 == 0 and ret.." " or ret
 end
 
 local function unsavedFiles()
@@ -42,8 +40,7 @@ local oilextension = {
 			function()
 				local ok, oil = pcall(require, 'oil')
 				if ok == true then
-					local currentDir = vim.fn.getcwd():match(".*/")
-					if currentDir == "/" then currentDir = "" end
+					local currentDir = vim.fn.getcwd():match("(.*)/")
 					local oilDir = oil.get_current_dir():gsub(currentDir, "")
 					return oilDir ~= "" and oilDir or oil.get_current_dir()
 				end
@@ -62,7 +59,7 @@ require("lualine").setup{
 		icons_enabled = true,
 		component_separators = "|",
 		section_separators = "",
-		refresh = {statusline = 300},
+		refresh = {statusline = 250},
 		theme = vim.g.colors_name == 'rose-pine' and 'nord' or 'auto'
 	},
 	extensions = {oilextension},

@@ -94,8 +94,7 @@ require("lazy").setup({
 			},
 			view_options = {
 				is_hidden_file = function(name, bufnr)
-					if name == ".." then return false end
-					return  vim.startswith(name, ".")
+					return name == ".." and false or vim.startswith(name, ".")
 				end,
 			}
 		})
@@ -201,14 +200,14 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 vim.api.nvim_create_user_command('Deleteview',function() vim.cmd("!rm ~/.local/state/nvim/view/*") end,{})
 vim.api.nvim_create_user_command('Ctags',function() vim.cmd("!ctags -R .") end, {})
 
--- vim.api.nvim_create_user_command('ClangFormart', function()
--- 	vim.cmd('silent! !echo "UseTab: Always" > .clang-format')
--- 	vim.cmd('silent! !echo "IndentWidth: "'..vim.g.tabNumber.. '>> .clang-format')
--- 	vim.cmd('silent! !echo "TabWidth: "'..vim.g.tabNumber.. '>> .clang-format')
--- 	vim.cmd('silent! !echo "ColumnLimit: 1000000" >> .clang-format')
--- 	vim.cmd('silent! !echo "AllowShortFunctionsOnASingleLine: Empty" >> .clang-format')
--- 	vim.cmd('silent! LspRestart')
--- end ,{})
+vim.api.nvim_create_user_command('ClangFormart', function()
+	vim.cmd('silent! !echo "UseTab: Always" > .clang-format')
+	vim.cmd('silent! !echo "IndentWidth: "'..vim.g.tabNumber.. '>> .clang-format')
+	vim.cmd('silent! !echo "TabWidth: "'..vim.g.tabNumber.. '>> .clang-format')
+	vim.cmd('silent! !echo "ColumnLimit: 1000000" >> .clang-format')
+	vim.cmd('silent! !echo "AllowShortFunctionsOnASingleLine: Empty" >> .clang-format')
+	vim.cmd('silent! LspRestart')
+end ,{})
 
 if vim.loader then
 	vim.loader.enable()
