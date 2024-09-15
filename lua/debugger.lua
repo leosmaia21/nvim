@@ -73,12 +73,13 @@ vim.keymap.set('n', '<A-e>', function()
 	dap.continue()
 end, opts)
 
+local lldb =vim.fn.stdpath("data") .. '/mason/bin/codelldb'
 dap.adapters.codelldb = {
 	type = 'server',
 	port = "${port}",
 	executable = {
-		command =vim.fn.stdpath("data") .. '/mason/bin/codelldb',
-		args = {"--port", "${port}"},
+		command = "/depot/glibc/glibc-2.20/lib/ld-2.20.so ",
+		args = {"/u/lmaia/binaries/codelldb/extension/adapter/codelldb", "--port", "${port}"},
 	},
 }
 

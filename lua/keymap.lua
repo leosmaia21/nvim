@@ -1,48 +1,73 @@
 local opts = { noremap = true, silent = true }
-local telescope = require('telescope.builtin')
-vim.keymap.set('n', '<leader>f', 	telescope.find_files, opts)
-vim.keymap.set('n', '<C-p>', 		telescope.find_files, opts)
--- vim.keymap.set('n', '<leader>gf', 	telescope.git_files, opts)
-vim.keymap.set('n', '<C-b>', 		telescope.buffers, opts)
-vim.keymap.set('n', '<leader>d',  	telescope.diagnostics, opts)
-vim.keymap.set('n', '<leader>o', 	telescope.oldfiles, opts)
-vim.keymap.set('n', '<leader>q', 	telescope.quickfix, opts)
-vim.keymap.set('n', '<leader>m',  	telescope.marks, opts)
-vim.keymap.set('n', '<leader>g', function()
-	local str = vim.fn.input("Grep> ")
-	if str ~= '' then
-		vim.cmd("silent! grep -rIi " .. str .. " * ")
-		telescope.quickfix()
-	end
-end, opts)
+-- local telescope = require('telescope.builtin')
+-- vim.keymap.set('n', '<leader>f', 	':lua require("telescope.builtin").find_files({ previewer = false })<CR>', opts)
+-- vim.keymap.set('n', '<C-p>', 			':lua require("telescope.builtin").find_files({ previewer = false })<CR>', opts)
+-- vim.keymap.set('n', '<leader>f', 	':lua require("telescope.builtin").find_files()<CR>', opts)
+-- vim.keymap.set('n', '<C-p>', 			':lua require("telescope.builtin").find_files()<CR>', opts)
+-- vim.keymap.set('n', '<C-b>', 			':lua require("telescope.builtin").buffers({  previewer = false ,sort_mru = true })<CR>', opts)
+-- vim.keymap.set('n', '<leader>d',  ':lua require("telescope.builtin").diagnostics()<CR>', opts)
+-- vim.keymap.set('n', '<leader>q', 	':lua require("telescope.builtin").quickfix()<CR>', opts)
+-- vim.keymap.set('n', '<leader>m',  ':lua require("telescope.builtin").marks()<CR>', opts)
+-- vim.keymap.set('n', '<leader>g', function()
+-- 	local str = vim.fn.input("Grep> ")
+-- 	if str ~= '' then
+-- 		vim.cmd("silent! grep -rIi " .. str .. " * ")
+-- 		vim.cmd('lua require("telescope.builtin").quickfix()')
+-- 		-- telescope.quickfix()
+-- 	end
+-- end, opts)
+
+vim.keymap.set('n', '<leader>f', 	':lua require("fzf-lua").files()<CR>', opts)
+vim.keymap.set('n', '<C-p>', 			':lua require("fzf-lua").files() <CR>', opts)
+vim.keymap.set('n', '<C-b>', 			':lua require("fzf-lua").buffers()<CR>', opts)
 
 vim.api.nvim_create_user_command('Delmarks',function() vim.cmd("delm!") vim.cmd("wshada!") end, {})
 
-vim.cmd("cnoremap <expr> <CR> pumvisible() ? '<C-y>' : '<CR>'")
+-- vim.cmd("cnoremap <expr> <CR> pumvisible() ? '<C-y>' : '<CR>'")
 
-vim.keymap.set('n', '<leader>a', function() require("harpoon.mark").add_file() end, opts)
-vim.keymap.set('n', '<leader>h', function() require("harpoon.ui").toggle_quick_menu()end,  opts)
+-- vim.keymap.set('n', '<leader>a', function() require("harpoon.mark").add_file() end, opts)
+-- vim.keymap.set('n', '<leader>h', function() require("harpoon.ui").toggle_quick_menu()end,  opts)
 for i = 1, 9 do
-	vim.keymap.set('n', '<A-'..i..'>', function() require("harpoon.ui").nav_file(i) end, opts)
-	vim.keymap.set('n', '<leader>'..i, function() require("harpoon.ui").nav_file(i) end, opts)
+	-- vim.keymap.set('n', '<A-'..i..'>', function() require("harpoon.ui").nav_file(i) end, opts)
+	-- vim.keymap.set('n', '<leader>'..i, function() require("harpoon.ui").nav_file(i) end, opts)
+	vim.keymap.set('n', '<A-'..i..'>', ':LualineBuffersJump '..i..'<CR>', opts)
+	vim.keymap.set('n', '<leader>'..i, ':LualineBuffersJump '..i..'<CR>', opts)
 end
-vim.keymap.set('n', '<A-l>', 	 function() require("harpoon.ui").nav_next() end, opts)
-vim.keymap.set('n', '<A-h>', 	 function() require("harpoon.ui").nav_prev() end, opts)
+-- vim.keymap.set('n', '<A-l>', 	 function() require("harpoon.ui").nav_next() end, opts)
+-- vim.keymap.set('n', '<A-h>', 	 function() require("harpoon.ui").nav_prev() end, opts)
 
--- vim.keymap.set('n', '<C-Space>', '<C-w>w')
-vim.keymap.set('n', '<C-Space>', require('nvim-tmux-navigation').NvimTmuxNavigateNext, opts)
+local cmdtorun = ''
+vim.keymap.set('n', '<C-x>' ,function()
+	if cmdtorun == '' then
+		vim.fn.input('Command: ', cmdtorun)
+	else
+		vim.cmd(cmdtorun)
+	end
+end, opts)
+
+vim.keymap.set('n', '<leader>q', ':!p4 edit % <CR>', opts)
+vim.keymap.set('n', '<leader>i', ':lua require "ibl"<CR>', opts)
+vim.keymap.set('n', '<leader>h', ':lua require "nvim-treesitter"<CR>', opts)
+vim.keymap.set('n', '<leader>t', function()
+	local save_cursor = vim.fn.getpos(".")
+	vim.cmd [[%s/\s\+$//e]]
+	vim.fn.setpos(".", save_cursor)
+end, opts)
+
+-- vim.keymap.set('n', '<C-n>', '<C-w>w')
 vim.keymap.set('n', '<Up>', '<C-w>k', opts)
 vim.keymap.set('n', '<Right>', '<C-w>l', opts)
 vim.keymap.set('n', '<Left>', '<C-w>h', opts)
 vim.keymap.set('n', '<Down>', '<C-w>j', opts)
 
-vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, opts)
 
 -- vim.keymap.set('n', '<leader>s', "<cmd>Telescope aerial<CR>", opts)
 
 vim.keymap.set('n', '<CR>', 'ciw', opts)
 
-vim.keymap.set('n', '<leader>e', vim.cmd.Oil, opts)
+-- vim.keymap.set('n', '<C-n>', ':bd<CR>', opts)
+
+-- vim.keymap.set('n', '<leader>o', vim.cmd.Oil, opts)
 
 vim.keymap.set('n', '<leader><Tab>', '<C-6>', opts)
 

@@ -1,0 +1,6 @@
+IndentWidth: 4
+TabWidth: 4
+ColumnLimit: 1000000
+AllowShortFunctionsOnASingleLine: None
+PackConstructorInitializers: Never
+BreakConstructorInitializers: AfterColon

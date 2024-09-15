@@ -23,15 +23,16 @@ local function unsavedFiles()
 end
 
 local function harpoonFiles()
-	if vim.api.nvim_buf_get_option(0, 'buftype') ~= '' then return '' end
-	local currentFile = vim.api.nvim_buf_get_name(0):match("[^/]+$")
-	local ret = ''
-	for key, value in ipairs(require("harpoon").get_mark_config()['marks']) do
-		local file = value['filename']:match("[^/]+$")
-		file = file == currentFile and file .. "*" or file .. " "
-		ret = ret .. "  " .. key .. " " .. file
-	end
-	return ret
+	-- if vim.api.nvim_buf_get_option(0, 'buftype') ~= '' then return '' end
+	-- local currentFile = vim.api.nvim_buf_get_name(0):match("[^/]+$")
+	-- local ret = ''
+	-- for key, value in ipairs(require("harpoon").get_mark_config()['marks']) do
+	-- 	local file = value['filename']:match("[^/]+$")
+	-- 	file = file == currentFile and file .. "*" or file .. " "
+	-- 	ret = ret .. "  " .. key .. " " .. file
+	-- end
+	-- return ret
+	local harpoon = require'harpoon'
 end
 
 local oilextension = {
@@ -40,9 +41,10 @@ local oilextension = {
 			function()
 				local ok, oil = pcall(require, 'oil')
 				if ok == true then
-					local currentDir = vim.fn.getcwd():match("(.*)/")
-					local oilDir = oil.get_current_dir():gsub(currentDir, "")
-					return oilDir ~= "" and oilDir or oil.get_current_dir()
+					-- local currentDir = vim.fn.getcwd():match("(.*)/")
+					local oilDir = oil.get_current_dir()
+					return oilDir
+					-- return oilDir ~= "" and oilDir or oil.get_current_dir()
 				end
 				return ''
 			end,
@@ -59,15 +61,18 @@ require("lualine").setup{
 		icons_enabled = true,
 		component_separators = "|",
 		section_separators = "",
-		refresh = {statusline = 250},
+		-- refresh = {statusline = 250},
 		theme = vim.g.colors_name == 'rose-pine' and 'nord' or 'auto'
 	},
-	extensions = {oilextension},
+	-- extensions = {oilextension},
+	extensions = {"oil"},
 	sections = {
-		lualine_a = {filename, unsavedFiles},
-		lualine_b = {harpoonFiles},
-		lualine_c = {},
-		lualine_x = {},
+		lualine_a = {"filename", unsavedFiles},
+		lualine_b = {},
+		lualine_c = {
+			{"buffers", mode = 2, }
+			},
+	lualine_x = {},
 		-- lualine_y = {},
 		-- lualine_z = {},
 	}
